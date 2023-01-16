@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+#include <sstream> // for loading data file
+#include <vector> // for loading data file
 #include "Dictionary.h"
 #include "List.h"
 
@@ -14,14 +17,65 @@ void MainMenu()
     cout << "Type your option: ";
 }
 
+// Write to csv file when user registered
+void WriteToAccount(string userid, string password)
+{
+    fstream fout;
+    fout.open("accountdata.csv", ios::out | ios::app);
+    fout << userid << "," << password << "\n";
+}
+/*
+// Load data from csv file
+void ReadFromAccount()
+{
+    Dictionary account;
+    ifstream allAccount;
+    allAccount.open("accountdata.csv");
+    if (allAccount.fail())
+    {
+        cout << "File can't be opened\n";
+    }
+    allAccount.ignore(numeric_limits<streamsize>::max(), '\n'); // ignore the first line of the data file
+    while (allAccount.peek() != EOF) {
+        string userid, password;
+        string temp, temp2;
+        getline(allAccount, userid, ',');
+        getline(allAccount, password, '\n');
+        temp = userid + '\n';
+        temp2 = password + '\n';
+        cout << temp;
+        cout << temp2;
+        account.add(temp, temp2);
+    }
+    allAccount.close();
+}*/
+
 int main()
 {
     Dictionary account;
     List topic;
     List post;
-    // Temporarily store Account for testing
-    account.add("User1", "password1");
-    account.add("User2", "password2");
+    // Load from Account file
+    ifstream allAccount;
+    allAccount.open("accountdata.csv");
+    if (allAccount.fail())
+    {
+        cout << "File can't be opened\n";
+    }
+    allAccount.ignore(numeric_limits<streamsize>::max(), '\n'); // ignore the first line of the data file
+    while (allAccount.peek() != EOF) {
+        string userid, password;
+        string temp, temp2;
+        getline(allAccount, userid, ',');
+        getline(allAccount, password, '\n');
+        temp = userid + '\n';
+        temp2 = password + '\n';
+        cout << temp;
+        cout << temp2;
+        account.add(userid, password);
+    }
+    allAccount.close();
+    // Temporarily store Topic for testing
     topic.add("Hash Table");
     topic.add("Linked List");
     int option = 1;
@@ -92,6 +146,7 @@ int main()
                 cin >> userid;
                 cout << "Key in your Password: ";
                 cin >> password;
+                WriteToAccount(userid, password);
                 account.add(userid, password);
             }
     }
