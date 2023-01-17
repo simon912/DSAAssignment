@@ -89,8 +89,7 @@ void List::printTopic() {
     }
 }
 
-/*int List::getLength() {
-    cout << "Length: " << size << endl;
+int List::getLength() {
     return size;
 }
 
