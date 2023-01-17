@@ -1,4 +1,5 @@
-// Account.cpp - Implementation of Account class (by Simon)
+// Account.cpp - Implementation of Account class
+// by Simon Group 10 S10228098
 #include "Account.h"
 
 Account::Account() {}

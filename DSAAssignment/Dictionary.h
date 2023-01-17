@@ -44,6 +44,11 @@ public:
 	//       size of Dictionary is decreased by 1
 	void remove(KeyType key);
 
+	// get the key itself (retrieve)
+	// pre : key must exist in the dictionary
+	// post: none
+	// return the specific key from the Dictionary
+	ItemType getKey(KeyType key);
 
 	// get an item with the specified key in the Dictionary (retrieve)
 	// pre : key must exist in the dictionary

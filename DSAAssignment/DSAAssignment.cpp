@@ -8,9 +8,11 @@
 
 void MainMenu()
 {
-    cout << "========================\n";
-    cout << "| Welcome to the Forum |\n";
-    cout << "========================\n";
+    cout << "===================================================================\n";
+    cout << "|                                                                 |\n";
+    cout << "|                     Welcome to the Forum                        |\n";
+    cout << "|                                                                 |\n";
+    cout << "===================================================================\n";
     cout << "You need an account to access the forum\n";
     cout << "1) Log In\n";
     cout << "2) Register\n";
@@ -79,27 +81,31 @@ int main()
     {
         MainMenu();
         cin >> option;
-        string userid;
-        string password;
+        string input;
         // Login 
         if (option == 1)
         {
-            Account accountLogin(userid, password);
+            Account accountLogin(input, input);
+            cout << "===================================================================\n";
+            cout << "|                                                                 |\n";
+            cout << "|                          Logging in...                          |\n";
+            cout << "|                                                                 |\n";
+            cout << "===================================================================\n";
             cout << "Please enter your User ID: ";
-            cin >> userid;
-            accountLogin.setUserID(userid);
+            cin >> input;
+            accountLogin.setUserID(input);
             cout << "Please enter your Password: ";
-            cin >> password;
-            accountLogin.setPassword(password);
-            string useridCompare = accountLogin.getUserID();
-            string passwordCompare = accountLogin.getPassword();
+            cin >> input;
+            accountLogin.setPassword(input);
+            string userid = accountLogin.getUserID();
+            string password = accountLogin.getPassword();
             // Verify if user id and password is in hash table
-            if (accountDictionary.get(useridCompare) == passwordCompare)
+            if (accountDictionary.get(userid) == password)
             {
-                cout << "===========================\n";
-                cout << "|      User is found      |\n";
-                cout << "|      Welcome, " << userid << "     |\n";
-                cout << "===========================\n";
+                cout << "===================================================================\n";
+                cout << "|                        User is found                            |\n";
+                cout << "|                       Welcome, " << userid << "                 |\n";
+                cout << "===================================================================\n";
                 while (true)
                 {
                     // Viewing the Forum
@@ -151,20 +157,37 @@ int main()
         // Register Account
         else if (option == 2)
             {
-                Account accountRegister(userid, password);
-                cout << "Register\n";
-                cout << "Key in your User ID: ";
-                cin >> userid;
-                accountRegister.setUserID(userid);
-                cout << "Key in your Password: ";
-                cin >> password;
-                accountRegister.setPassword(password);
-                string useridRegister = accountRegister.getUserID();
-                string passwordRegister = accountRegister.getPassword();
-                WriteToAccount(useridRegister, passwordRegister);
-                accountDictionary.add(useridRegister, passwordRegister);
-            }
+                Account accountRegister(input, input);
+                cout << "===================================================================\n";
+                cout << "|                                                                 |\n";
+                cout << "|                     Registering an account...                   |\n";
+                cout << "|                                                                 |\n";
+                cout << "===================================================================\n";
+                cout << "Enter your User ID: ";
+                cin >> input;
+                accountRegister.setUserID(input);
+                cout << "Enter your Password: ";
+                cin >> input;
+                accountRegister.setPassword(input);
+                string userid = accountRegister.getUserID();
+                string password = accountRegister.getPassword();
+                if (accountDictionary.getKey(userid) == userid)
+                {
+                    cout << "The UserID is already in use!\n";
+                    continue;
+                }
+                else
+                {
+                    WriteToAccount(userid, password);
+                    accountDictionary.add(userid, password);
+                    cout << "Account has been successfully created!\n";
+                }
+        }
+        else
+        {
+        break;
+        }
+        
     }
-    return false;
 }
 

@@ -1,5 +1,6 @@
 #pragma once
-// Account.h - Definition of Account class (by Simon)
+// Account.h - Definition of Account class
+// by Simon Group 10 S10228098
 
 #include<string>
 #include<iostream>

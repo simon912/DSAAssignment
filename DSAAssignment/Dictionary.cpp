@@ -17,7 +17,7 @@ int Dictionary::hash(KeyType key) {
 	int x = 0;
 	for (int i : key)
 	{
-		x++;
+		x = x % MAX_SIZE;
 	}
 	return x;
 }
@@ -50,7 +50,22 @@ bool Dictionary::add(KeyType Key, ItemType newItem) {
 	}
 	return false;
 }
-
+// Retrieve the key itself
+ItemType Dictionary::getKey(KeyType key) {
+	int index = hash(key);
+	Node* newNode = items[index];
+	while (newNode != NULL)
+	{
+		if (newNode->key == key) {
+			return newNode->key;
+		}
+		else if (newNode->next == NULL) {
+			return "";
+		}
+		else
+			newNode = newNode->next;
+	}
+}
 // Retrieve the Item using the Key
 ItemType Dictionary::get(KeyType key) {
 	int index = hash(key);
