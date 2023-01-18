@@ -45,13 +45,13 @@ public:
 	void remove(KeyType key);
 
 	// get the key itself (retrieve)
-	// pre : key must exist in the dictionary
+	// pre : key must exist in the Dictionary
 	// post: none
 	// return the specific key from the Dictionary
 	ItemType getKey(KeyType key);
 
 	// get an item with the specified key in the Dictionary (retrieve)
-	// pre : key must exist in the dictionary
+	// pre : key must exist in the Dictionary
 	// post: none
 	// return the item with the specified key from the Dictionary
 	ItemType get(KeyType key);
@@ -73,6 +73,11 @@ public:
 	// display the items in the Dictionary
 	void print();
 
-	// void replace(KeyType key, ItemType item);
-	// bool contains(KeyType key);
+	// checks if UserID (key) exist in the Dictionary
+	// pre: key must exist in the Dictionary
+	// post: none
+	// return true if UserID exist; otherwise returns false
+	bool ifAccountExist(KeyType key);
+
+	bool loginStatus(KeyType key, ItemType item);
 };

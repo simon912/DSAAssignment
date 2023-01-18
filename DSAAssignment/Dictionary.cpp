@@ -83,6 +83,42 @@ ItemType Dictionary::get(KeyType key) {
 	}
 }
 
+// For Register
+bool Dictionary::ifAccountExist(KeyType key)
+{
+	int index = hash(key);
+	Node* newNode = items[index];
+	while (newNode != NULL)
+	{
+		if (getKey(key) == key)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
+
+bool Dictionary::loginStatus(KeyType key, ItemType item)
+{
+	int index = hash(key);
+	Node* newNode = items[index];
+	while (newNode != NULL)
+	{
+		if (getKey(key) == key && get(key) == item)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
+
+
 // Remove an entry from the Hash Table
 void Dictionary::remove(KeyType key) {
 	if (!isEmpty()) {
