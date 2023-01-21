@@ -10,6 +10,7 @@ List post;
 string input;
 int option = 1;
 bool loggedIn;
+Account account(input, input);
 
 // The Main Menu that is displayed before the User logs in
 void MainMenu()
@@ -55,7 +56,6 @@ void ReadFromAccount()
 // Login Account
 void Login()
 {
-    Account accountLogin(input, input);
     cout << endl;
     cout << "===================================================================\n";
     cout << "|                                                                 |\n";
@@ -64,12 +64,12 @@ void Login()
     cout << "===================================================================\n";
     cout << "Please enter your User ID: ";
     cin >> input;
-    accountLogin.setUserID(input);
+    account.setUserID(input);
     cout << "Please enter your Password: ";
     cin >> input;
-    accountLogin.setPassword(input);
-    string userid = accountLogin.getUserID();
-    string password = accountLogin.getPassword();
+    account.setPassword(input);
+    string userid = account.getUserID();
+    string password = account.getPassword();
     // Verify if user id and password is in hash table
     if (accountDictionary.loginStatus(userid, password))
     {
@@ -116,7 +116,7 @@ void CreateTopic()
 // Register Account
 void Register()
 {
-    Account accountRegister(input, input);
+    cout << endl;
     cout << "===================================================================\n";
     cout << "|                                                                 |\n";
     cout << "|                     Registering an account...                   |\n";
@@ -124,12 +124,12 @@ void Register()
     cout << "===================================================================\n";
     cout << "Enter your User ID: ";
     cin >> input;
-    accountRegister.setUserID(input);
+    account.setUserID(input);
     cout << "Enter your Password: ";
     cin >> input;
-    accountRegister.setPassword(input);
-    string userid = accountRegister.getUserID();
-    string password = accountRegister.getPassword();
+    account.setPassword(input);
+    string userid = account.getUserID();
+    string password = account.getPassword();
     if (accountDictionary.ifAccountExist(userid))
     {
         cout << "The UserID is already in use!\n";
@@ -162,9 +162,10 @@ int main()
                 while (loggedIn == true)
                 {
                     // Viewing the Forum
+                    cout << "User: " << account.getUserID() << endl;
                     cout << "1) View all topics and posts\n";
                     cout << "2) Create a new topic\n";
-                    cout << "Press any key to log out\n";
+                    cout << "Press any other number to log out\n";
                     cout << "Type your option: ";
                     cin >> option;
                     // Topic and Post
