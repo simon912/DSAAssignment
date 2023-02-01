@@ -12,13 +12,76 @@ int option = 1;
 bool loggedIn;
 Account account(input, input);
 
+void MainMenu();
+void WriteToAccount();
+void ReadFromAccount();
+void Login();
+void Register();
+void ViewAllTopic();
+void CreateTopic();
+
+int main()
+{
+    // Load the data
+    ReadFromAccount();
+    // Temporarily store Topic for testing
+    topic.add("Hash Table");
+    topic.add("Linked List");
+    while (true)
+    {
+        MainMenu();
+        cin >> option;
+        // Login 
+        if (option == 1)
+        {
+            Login();
+            if (loggedIn == true)
+            {
+                while (loggedIn == true)
+                {
+                    // Viewing the Forum
+                    cout << "1) View all topics and posts\n";
+                    cout << "2) Create a new topic\n";
+                    cout << "Press any other number to log out\n";
+                    cout << "Type your option: ";
+                    cin >> option;
+                    // Topic and Post
+                    // View all Topic (Linked List)
+                    if (option == 1)
+                    {
+                        ViewAllTopic();
+                    }
+                    // Create New Topic
+                    else if (option == 2)
+                    {
+                        CreateTopic();
+                    }
+                    else
+                    {
+                        loggedIn = false;
+                    }
+                }
+            }
+        }
+        // Register Account
+        else if (option == 2)
+        {
+            Register();
+        }
+        else
+        {
+            break;
+        }
+    }
+}
+
 // The Main Menu that is displayed before the User logs in
 void MainMenu()
 {
     cout << "===================================================================\n";
-    cout << "|                                                                 |\n";
-    cout << "|                     Welcome to the Forum                        |\n";
-    cout << "|                                                                 |\n";
+    cout << "                                                                 \n";
+    cout << "                     Welcome to the Forum                        \n";
+    cout << "                                                                 \n";
     cout << "===================================================================\n";
     cout << "You need an account to access the forum\n";
     cout << "1) Log In\n";
@@ -49,7 +112,7 @@ void ReadFromAccount()
         string userid, password;
         getline(allAccount, userid, ',');
         getline(allAccount, password, '\n');
-        accountDictionary.add(userid, password); 
+        accountDictionary.add(userid, password);
     }
     allAccount.close();
 }
@@ -58,9 +121,9 @@ void Login()
 {
     cout << endl;
     cout << "===================================================================\n";
-    cout << "|                                                                 |\n";
-    cout << "|                          Logging in...                          |\n";
-    cout << "|                                                                 |\n";
+    cout << "                                                                 \n";
+    cout << "                          Logging in...                          \n";
+    cout << "                                                                 \n";
     cout << "===================================================================\n";
     cout << "Please enter your User ID: ";
     cin >> input;
@@ -76,8 +139,8 @@ void Login()
         loggedIn = true;
         cout << endl;
         cout << "===================================================================\n";
-        cout << "|                        User is found                            |\n";
-        cout << "|                       Welcome, " << userid << "                 |\n";
+        cout << "                        User is found                            \n";
+        cout << "                       Welcome, " << account.getUserID() << "                 \n";
         cout << "===================================================================\n";
     }
     else
@@ -142,60 +205,3 @@ void Register()
         cout << endl;
     }
 }
-int main()
-{
-    // Load the data
-    ReadFromAccount();
-    // Temporarily store Topic for testing
-    topic.add("Hash Table");
-    topic.add("Linked List");
-    while (true)
-    {
-        MainMenu();
-        cin >> option;
-        // Login 
-        if (option == 1)
-        {
-            Login();
-            if (loggedIn == true)
-            {
-                while (loggedIn == true)
-                {
-                    // Viewing the Forum
-                    cout << "User: " << account.getUserID() << endl;
-                    cout << "1) View all topics and posts\n";
-                    cout << "2) Create a new topic\n";
-                    cout << "Press any other number to log out\n";
-                    cout << "Type your option: ";
-                    cin >> option;
-                    // Topic and Post
-                    // View all Topic (Linked List)
-                    if (option == 1)
-                    {
-                        ViewAllTopic();
-                    }
-                    // Create New Topic
-                    else if (option == 2)
-                    {
-                        CreateTopic();
-                    }
-                    else
-                    {
-                        loggedIn = false;
-                    }
-                }
-            }
-        }
-        // Register Account
-        else if (option == 2)
-        {
-            Register();
-        }
-        else
-        {
-            break;
-        }
-    }
-}
-
-

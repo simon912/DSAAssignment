@@ -143,11 +143,13 @@
     <ClCompile Include="Dictionary.cpp" />
     <ClCompile Include="DSAAssignment.cpp" />
     <ClCompile Include="List.cpp" />
+    <ClCompile Include="Topic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Account.h" />
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="List.h" />
+    <ClInclude Include="Topic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
