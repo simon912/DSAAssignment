@@ -1,14 +1,14 @@
 #pragma once
-
 #include<string>
 #include<iostream>
+
 using namespace std;
 
 const int MAX_SIZE = 101;
 typedef string KeyType;
 typedef string ItemType;
 
-
+template<typename ItemType>
 class Dictionary
 {
 private:
@@ -42,7 +42,7 @@ public:
 	// pre : key must exist in the Dictionary
 	// post: item is removed from the Dictionary
 	//       size of Dictionary is decreased by 1
-	void remove(KeyType key);
+	//void remove(KeyType key);
 
 	// get the key itself (retrieve)
 	// pre : key must exist in the Dictionary
@@ -79,5 +79,208 @@ public:
 	// return true if UserID exist; otherwise returns false
 	bool ifAccountExist(KeyType key);
 
+	// checks for the user status
+	// pre: key must exist in the Dictionary
+	// post: none
+	// return true if user is logged in as the UserID that exist; otherwise returns false
 	bool loginStatus(KeyType key, ItemType item);
+	
 };
+
+template <typename ItemType>
+Dictionary<ItemType>::Dictionary() {
+	size = 0;
+	Node* newNode = new Node();
+	newNode->item = "";
+	newNode->key = "";
+	newNode->next = NULL;
+	for (int i = 0; i < MAX_SIZE; i++) {
+		items[i] = newNode;
+	}
+};
+template <typename ItemType>
+Dictionary<ItemType>::~Dictionary() {};
+
+// Hash key (placeholder for now)
+template <typename ItemType>
+int Dictionary<ItemType>::hash(KeyType key) {
+	int x = 0;
+	for (int i : key)
+	{
+		x = x % MAX_SIZE;
+	}
+	return x;
+}
+
+// Add something into Hash Table with the Key and Item
+template <typename ItemType>
+bool Dictionary<ItemType>::add(KeyType Key, ItemType newItem) {
+	int index = hash(Key);
+	if (!(index > MAX_SIZE)) {
+		Node* newNode = new Node();
+		newNode->item = newItem;
+		newNode->key = Key;
+		newNode->next = NULL;
+		if (items[index]->item == "")
+			items[index] = newNode;
+		else
+		{
+			Node* current = items[index];
+			bool loop = true;
+			while (loop)
+			{
+				if (current->next == NULL)
+					loop = false;
+				else
+					current = current->next;
+			}
+			current->next = newNode;
+		}
+		size++;
+		return true;
+	}
+	return false;
+}
+// Retrieve the key itself
+template <typename ItemType>
+ItemType Dictionary<ItemType>::getKey(KeyType key) {
+	int index = hash(key);
+	Node* newNode = items[index];
+	while (newNode != NULL)
+	{
+		if (newNode->key == key) {
+			return newNode->key;
+		}
+		else if (newNode->next == NULL) {
+			return "";
+		}
+		else
+			newNode = newNode->next;
+	}
+}
+// Retrieve the Item using the Key
+template <typename ItemType>
+ItemType Dictionary<ItemType>::get(KeyType key) {
+	int index = hash(key);
+	Node* newNode = items[index];
+	while (newNode != NULL)
+	{
+		if (newNode->key == key) {
+			return newNode->item;
+		}
+		else if (newNode->next == NULL) {
+			return "";
+		}
+		else
+			newNode = newNode->next;
+	}
+}
+
+// For Register
+template <typename ItemType>
+bool Dictionary<ItemType>::ifAccountExist(KeyType key)
+{
+	int index = hash(key);
+	Node* newNode = items[index];
+	while (newNode != NULL)
+	{
+		if (getKey(key) == key)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
+template <typename ItemType>
+bool Dictionary<ItemType>::loginStatus(KeyType key, ItemType item)
+{
+	int index = hash(key);
+	Node* newNode = items[index];
+	while (newNode != NULL)
+	{
+		if (getKey(key) == key && get(key) == item)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
+
+/* -- Probably not needed --
+// Remove an entry from the Hash Table
+template <typename ItemType>
+void Dictionary<ItemType>::remove(KeyType key) {
+	if (!isEmpty()) {
+		int index = hash(key);
+		Node* newNode = items[index];
+		Node* current = items[index];
+		bool loop = true;
+		if (current->key == key) {
+			Node* temp = current;
+			items[index] = current->next;
+			delete temp;
+			size--;
+			cout << "Item removed" << endl;
+			return;
+		}
+		current = newNode->next;
+		while (loop)
+		{
+			if (current->key == key) {
+				Node* temp = current;
+				newNode->next = current->next;
+				delete temp;
+				size--;
+				cout << "Item removed" << endl;
+				break;
+			}
+			else if (current->next == NULL) {
+				break;
+			}
+			else {
+				newNode = newNode->next;
+				current = current->next;
+			}
+		}
+	}
+	else
+		cout << "Item is not removed (Item not found)" << endl;
+}*/
+// Check if Hash Table is empty
+template <typename ItemType>
+bool Dictionary<ItemType>::isEmpty() {
+	if (size == 0)
+		return true;
+	return false;
+}
+// Get the length of Hash Table
+template <typename ItemType>
+int Dictionary<ItemType>::getLength() {
+	return size;
+}
+
+// Print the entire Hash Table
+template <typename ItemType>
+void Dictionary<ItemType>::print() {
+	for (int i = 0; i < MAX_SIZE; i++) {
+		Node* current = items[i];
+		while (true)
+		{
+			if (current->item != "") {
+				cout << current->key << " | " << current->item << endl;
+				if (current->next != NULL)
+					current = current->next;
+				else
+					break;
+			}
+			else
+				break;
+		}
+	}
+}

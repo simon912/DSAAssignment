@@ -4,16 +4,15 @@
 #include "List.h"
 #include "Account.h"
 
-Dictionary accountDictionary;
+Account account;
+Dictionary<string> accountDictionary;
 List topic;
 List post;
 string input;
 int option = 1;
 bool loggedIn;
-Account account(input, input);
 
 void MainMenu();
-void WriteToAccount();
 void ReadFromAccount();
 void Login();
 void Register();

@@ -3,9 +3,7 @@
 #include "Account.h"
 
 Account::Account() {}
-
-Account::Account(string uid, string psw)
-{
+Account::Account(string uid, string psw) {
 	userid = uid;
 	password = psw;
 }
