@@ -6,8 +6,8 @@
 
 Account account;
 Dictionary<string> accountDictionary;
-List topic;
-List post;
+List<string> topic;
+List<string> post;
 string input;
 int option = 1;
 bool loggedIn;
@@ -192,7 +192,7 @@ void Register()
     account.setPassword(input);
     string userid = account.getUserID();
     string password = account.getPassword();
-    if (accountDictionary.ifAccountExist(userid))
+    if (accountDictionary.ifKeyExist(userid))
     {
         cout << "The UserID is already in use!\n";
     }

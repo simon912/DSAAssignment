@@ -73,11 +73,11 @@ public:
 	// display the items in the Dictionary
 	void print();
 
-	// checks if UserID (key) exist in the Dictionary
+	// checks if key exist in the Dictionary
 	// pre: key must exist in the Dictionary
 	// post: none
-	// return true if UserID exist; otherwise returns false
-	bool ifAccountExist(KeyType key);
+	// return true if key exist in Dictionary; otherwise returns false
+	bool ifKeyExist(KeyType key);
 
 	// checks for the user status
 	// pre: key must exist in the Dictionary
@@ -87,6 +87,7 @@ public:
 	
 };
 
+// ------------------------------------------- Implementation of Dictionary class -------------------------------------------
 template <typename ItemType>
 Dictionary<ItemType>::Dictionary() {
 	size = 0;
@@ -178,7 +179,7 @@ ItemType Dictionary<ItemType>::get(KeyType key) {
 
 // For Register
 template <typename ItemType>
-bool Dictionary<ItemType>::ifAccountExist(KeyType key)
+bool Dictionary<ItemType>::ifKeyExist(KeyType key)
 {
 	int index = hash(key);
 	Node* newNode = items[index];

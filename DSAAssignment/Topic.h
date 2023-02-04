@@ -8,10 +8,10 @@ using namespace std;
 class Topic
 {
 private:
-	int topicid;
 	string content;
 
 public:
 	Topic();
-	Topic(int topicid, string content);
+	Topic(string content);
+	void addTopic(string content);
 };
