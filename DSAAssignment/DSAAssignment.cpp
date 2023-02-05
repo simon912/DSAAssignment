@@ -29,10 +29,11 @@ int main()
     topicList.add("Hash Table");
     topicList.add("Linked List");
     topicList.add("Queue");
-    for (int i = 0; i < topicList.getLength(); i++)
+    topicList.add("Stack");
+    /*for (int i = 0; i < topicList.getLength(); i++)
     {
         topic.setTopicName(topicList.get(i));
-    }
+    }*/
     // End of temporarily store Topic for testing
     while (true)
     {
@@ -155,18 +156,20 @@ void ViewAllTopic()
     cout << endl;
     for (int i = 0; i < topicList.getLength(); i++)
     {
-        for (int x = 0; x < topicList.getLength(); x++)
-        {
             if (option == i)
             {
                 cout << "You have entered the topic, " << topicList.get(i) << endl;
                 cout << "Here are the list of post for this topic: " << endl;
-                cout << endl;
-                break;
+                return;
                 // put the post list here for that topic i guess
-            }      
-        }   
+            }
+            else if (option >= topicList.getLength() || option < 1)
+            {
+                cout << "Invalid input!\n";
+                return;
+            }
     }
+    
 }
 
 // Create Topic

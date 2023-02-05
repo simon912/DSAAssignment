@@ -75,7 +75,7 @@ public:
 	// int search(ItemType item);
 };
 
-
+// ------------------------------------------- Implementation of List class -------------------------------------------
 using namespace std;
 
 template <typename ItemType>
