@@ -28,10 +28,12 @@ int main()
     // Temporarily store Topic for testing
     topicList.add("Hash Table");
     topicList.add("Linked List");
+    topicList.add("Queue");
     for (int i = 0; i < topicList.getLength(); i++)
     {
         topic.setTopicName(topicList.get(i));
     }
+    // End of temporarily store Topic for testing
     while (true)
     {
         MainMenu();
@@ -92,7 +94,7 @@ void MainMenu()
     cout << "1) Log In\n";
     cout << "2) Register\n";
     cout << "===================================================================\n";
-    cout << "Type your option or press any key to exit: \n";
+    cout << "Type your option or press any key to exit: ";
 }
 
 // Load data from csv file
@@ -150,22 +152,20 @@ void ViewAllTopic()
 {
     topicList.printTopic();
     cin >> option;
-    int topicSize = topicList.getLength();
-    for (int i = 0; i < topicSize; i++)
+    cout << endl;
+    for (int i = 0; i < topicList.getLength(); i++)
     {
-        if (option == i)
+        for (int x = 0; x < topicList.getLength(); x++)
         {
-            cout << "You have entered the topic, " << topicList.get(i) << endl;
-            cout << "Here are the list of post for this topic: " << endl;
-            // put the post list here for that topic i guess
-        }
-        else
-        {
-            break;
-        }
-        cout << endl;
-        
-
+            if (option == i)
+            {
+                cout << "You have entered the topic, " << topicList.get(i) << endl;
+                cout << "Here are the list of post for this topic: " << endl;
+                cout << endl;
+                break;
+                // put the post list here for that topic i guess
+            }      
+        }   
     }
 }
 
@@ -200,6 +200,7 @@ void Register()
     if (accountDictionary.ifKeyExist(userid))
     {
         cout << "The UserID is already in use!\n";
+        cout << endl;
     }
     else
     {

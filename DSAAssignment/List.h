@@ -165,7 +165,7 @@ ItemType List<ItemType>::get(int index) {
     return ItemType();
     }
     
-
+// Display list of Topics
 template <typename ItemType>
 void List<ItemType>::printTopic() {
     Node* topic = firstNode;
@@ -178,11 +178,13 @@ void List<ItemType>::printTopic() {
             cout << "===================================================================\n";
         }
         cout << "Type the corresponding number to view a topic: ";
+        
     }
     else
     {
         cout << "There is no topic\n";
     }
+    
 }
 
 template <typename ItemType>
