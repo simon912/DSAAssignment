@@ -3,11 +3,13 @@
 #include "Dictionary.h"
 #include "List.h"
 #include "Account.h"
+#include "Topic.h"
 
 Account account;
+Topic topic;
 Dictionary<string> accountDictionary;
-List<string> topic;
-List<string> post;
+List<string> topicList;
+List<string> postList;
 string input;
 int option = 1;
 bool loggedIn;
@@ -24,8 +26,12 @@ int main()
     // Load the data
     ReadFromAccount();
     // Temporarily store Topic for testing
-    topic.add("Hash Table");
-    topic.add("Linked List");
+    topicList.add("Hash Table");
+    topicList.add("Linked List");
+    for (int i = 0; i < topicList.getLength(); i++)
+    {
+        topic.setTopicName(topicList.get(i));
+    }
     while (true)
     {
         MainMenu();
@@ -85,8 +91,8 @@ void MainMenu()
     cout << "You need an account to access the forum\n";
     cout << "1) Log In\n";
     cout << "2) Register\n";
-    cout << "Press any key to exit\n";
-    cout << "Type your option: ";
+    cout << "===================================================================\n";
+    cout << "Type your option or press any key to exit: \n";
 }
 
 // Load data from csv file
@@ -122,10 +128,8 @@ void Login()
     cout << "Please enter your Password: ";
     cin >> input;
     account.setPassword(input);
-    string userid = account.getUserID();
-    string password = account.getPassword();
     // Verify if user id and password is in hash table
-    if (accountDictionary.loginStatus(userid, password))
+    if (accountDictionary.loginStatus(account.getUserID(), account.getPassword()))
     {
         loggedIn = true;
         cout << endl;
@@ -144,9 +148,9 @@ void Login()
 // View all Topic 
 void ViewAllTopic()
 {
-    topic.printTopic();
+    topicList.printTopic();
     cin >> option;
-    int topicSize = topic.getLength();
+    int topicSize = topicList.getLength();
     for (int i = 0; i < topicSize; i++)
     {
         if (option == i)
@@ -165,7 +169,7 @@ void CreateTopic()
     // Accepts a string with spacing
     cin.ignore();
     getline(cin, strtopic);
-    topic.add(strtopic);
+    topicList.add(strtopic);
 }
 // Register Account
 void Register()

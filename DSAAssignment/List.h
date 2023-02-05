@@ -151,18 +151,31 @@ void List<ItemType>::remove(int index) {
         size--;
     }
 }
-
+template <typename ItemType>
+ItemType List<ItemType>::get(int index) {
+    if (index < size && index >= 0) {
+        Node* current = firstNode;
+        for (int i = 0; i < index - 1; i++) {
+                if (current->next != NULL) {
+                    current = current->next;
+                }
+            }
+            return current->item;
+        }
+    return ItemType();
+    }
+    
 
 template <typename ItemType>
 void List<ItemType>::printTopic() {
     Node* topic = firstNode;
     if (size != NULL)
     {
-        cout << "-----------------" << endl;
+        cout << "===================================================================\n";
         for (int i = 0; i < size; i++) {
             cout << "[" << i << "] " << topic->item << endl;
             topic = topic->next;
-            cout << "-----------------" << endl;
+            cout << "===================================================================\n";
         }
         cout << "Type the corresponding number to view a topic: ";
     }
