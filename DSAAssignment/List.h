@@ -155,7 +155,7 @@ template <typename ItemType>
 ItemType List<ItemType>::get(int index) {
     if (index < size && index >= 0) {
         Node* current = firstNode;
-        for (int i = 0; i < index - 1; i++) {
+        for (int i = 0; i <= index - 1; i++) {
                 if (current->next != NULL) {
                     current = current->next;
                 }

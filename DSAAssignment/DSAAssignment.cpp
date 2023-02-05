@@ -155,8 +155,17 @@ void ViewAllTopic()
     {
         if (option == i)
         {
-            cout << "You entered " << i << endl;
+            cout << "You have entered the topic, " << topicList.get(i) << endl;
+            cout << "Here are the list of post for this topic: " << endl;
+            // put the post list here for that topic i guess
         }
+        else
+        {
+            break;
+        }
+        cout << endl;
+        
+
     }
 }
 
