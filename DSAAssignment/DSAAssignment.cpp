@@ -89,14 +89,6 @@ void MainMenu()
     cout << "Type your option: ";
 }
 
-// Write to csv file when user registered
-void WriteToAccount(string userid, string password)
-{
-    fstream fout;
-    fout.open("accountdata.csv", ios::out | ios::app);
-    fout << userid << "," << password << "\n";
-}
-
 // Load data from csv file
 void ReadFromAccount()
 {
@@ -139,7 +131,7 @@ void Login()
         cout << endl;
         cout << "===================================================================\n";
         cout << "                        User is found                            \n";
-        cout << "                       Welcome, " << account.getUserID() << "                 \n";
+        cout << "                        Welcome, " << account.getUserID() << "                 \n";
         cout << "===================================================================\n";
     }
     else
@@ -198,7 +190,7 @@ void Register()
     }
     else
     {
-        WriteToAccount(userid, password);
+        account.WriteToAccount(userid, password);
         accountDictionary.add(userid, password);
         cout << "Account has been successfully created!\n";
         cout << endl;

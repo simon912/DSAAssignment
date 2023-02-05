@@ -19,4 +19,5 @@ public:
 	string getUserID();
 	void setPassword(string psw);
 	string getPassword();
+	void WriteToAccount(string uid, string psw);
 };
