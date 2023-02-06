@@ -41,6 +41,7 @@ int main()
                 {
                     // Viewing the Forum
                     cout << endl;
+                    cout << "What would you like to do?\n";
                     cout << "1) View all topics and posts\n";
                     cout << "2) Create a new topic\n";
                     cout << "Press any other number to log out\n";
@@ -60,7 +61,7 @@ int main()
                     }
                     else
                     {
-                        
+                        cout << "Logging out...\n";
                         loggedIn = false;
                     }
                 }
@@ -196,7 +197,6 @@ void ViewAllTopic()
         cout << "What topic do you want to pin?: \n";
         cin >> option;
         topicList.shifttoFirst(option);
-
     }
     
 }
@@ -210,6 +210,7 @@ void CreateTopic()
     // Accepts a string with spacing
     cin.ignore();
     getline(cin, strtopic);
+
     topic.WriteToTopic((topicList.getLength()-1) + 1, strtopic);
     topicList.add(strtopic);
 }

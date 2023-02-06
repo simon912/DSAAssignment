@@ -66,7 +66,7 @@ public:
 
 	//------------------- Other useful functions -----------------
 
-    // sticky post or topic
+    // sticky post or topic, moves the item from any index to the very first index
     void shifttoFirst(int index);
 	// display the list of topics
 	void printTopic();
@@ -175,7 +175,7 @@ void List<ItemType>::shifttoFirst(int index) {
     Node* current = firstNode->next;
     for (int i = 1; i < index; i++) {
         if (current->next == NULL) {
-            std::cout << "Index out of range." << std::endl;
+            cout << "Index out of range" << endl;
             return;
         }
         previous = current;
@@ -184,7 +184,6 @@ void List<ItemType>::shifttoFirst(int index) {
     previous->next = current->next;
     current->next = firstNode;
     firstNode = current;
-
 }
 
 // Display list of Topics
@@ -195,7 +194,7 @@ void List<ItemType>::printTopic() {
     {
         cout << "===================================================================\n";
         for (int i = 0; i < size; i++) {
-            cout << "[" << i << "] " << topic->item << endl;
+            cout << "[" << i << "] " << "| " << topic->item << endl;
             topic = topic->next;
             cout << "===================================================================\n";
         }
