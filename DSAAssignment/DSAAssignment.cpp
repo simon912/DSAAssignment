@@ -11,11 +11,12 @@ Dictionary<string> accountDictionary;
 List<string> topicList;
 List<string> postList;
 string input;
-int option = 1;
+int option;
 bool loggedIn;
 
 void MainMenu();
 void ReadFromAccount();
+void ReadFromTopic();
 void Login();
 void Register();
 void ViewAllTopic();
@@ -25,16 +26,7 @@ int main()
 {
     // Load the data
     ReadFromAccount();
-    // Temporarily store Topic for testing
-    topicList.add("Hash Table");
-    topicList.add("Linked List");
-    topicList.add("Queue");
-    topicList.add("Stack");
-    /*for (int i = 0; i < topicList.getLength(); i++)
-    {
-        topic.setTopicName(topicList.get(i));
-    }*/
-    // End of temporarily store Topic for testing
+    ReadFromTopic();
     while (true)
     {
         MainMenu();
@@ -48,6 +40,7 @@ int main()
                 while (loggedIn == true)
                 {
                     // Viewing the Forum
+                    cout << endl;
                     cout << "1) View all topics and posts\n";
                     cout << "2) Create a new topic\n";
                     cout << "Press any other number to log out\n";
@@ -58,6 +51,7 @@ int main()
                     if (option == 1)
                     {
                         ViewAllTopic();
+                        // put the post list here for that topic i guess
                     }
                     // Create New Topic
                     else if (option == 2)
@@ -66,6 +60,7 @@ int main()
                     }
                     else
                     {
+                        
                         loggedIn = false;
                     }
                 }
@@ -98,11 +93,11 @@ void MainMenu()
     cout << "Type your option or press any key to exit: ";
 }
 
-// Load data from csv file
+// Load account data from csv file
 void ReadFromAccount()
 {
     ifstream allAccount;
-    allAccount.open("accountdata.csv");
+    allAccount.open("Data/accountdata.csv");
     if (allAccount.fail())
     {
         cout << "File can't be opened\n";
@@ -115,6 +110,25 @@ void ReadFromAccount()
         accountDictionary.add(userid, password);
     }
     allAccount.close();
+}
+// Load topic data from csv file
+void ReadFromTopic()
+{
+    ifstream allTopic;
+    allTopic.open("Data/topicdata.csv");
+    if (allTopic.fail())
+    {
+        cout << "File can't be opened\n";
+    }
+    allTopic.ignore(numeric_limits<streamsize>::max(), '\n'); // ignore the first line of the data file
+    while (allTopic.peek() != EOF) {
+        string topicid;
+        string topic;
+        getline(allTopic, topicid, ',');
+        getline(allTopic, topic, '\n');
+        topicList.add(topic);
+    }
+    allTopic.close();
 }
 // Login Account
 void Login()
@@ -161,7 +175,7 @@ void ViewAllTopic()
                 cout << "You have entered the topic, " << topicList.get(i) << endl;
                 cout << "Here are the list of post for this topic: " << endl;
                 return;
-                // put the post list here for that topic i guess
+                
             }
             else if (option >= topicList.getLength() || option < 1)
             {
@@ -181,6 +195,7 @@ void CreateTopic()
     // Accepts a string with spacing
     cin.ignore();
     getline(cin, strtopic);
+    topic.WriteToTopic((topicList.getLength()-1) + 1, strtopic);
     topicList.add(strtopic);
 }
 // Register Account
