@@ -66,9 +66,9 @@ public:
 
 	//------------------- Other useful functions -----------------
 
-	// display the items in the list
-	void print();
-
+    // sticky post or topic
+    void shifttoFirst(int index);
+	// display the list of topics
 	void printTopic();
 	ItemType getLast();
 	// void replace(int index, ItemType item);
@@ -164,7 +164,29 @@ ItemType List<ItemType>::get(int index) {
         }
     return ItemType();
     }
-    
+
+// Put the item in the first index of the linked list
+template <typename ItemType>
+void List<ItemType>::shifttoFirst(int index) {
+    if (index == 0) {
+        return;
+    }
+    Node* previous = firstNode;
+    Node* current = firstNode->next;
+    for (int i = 1; i < index; i++) {
+        if (current->next == NULL) {
+            std::cout << "Index out of range." << std::endl;
+            return;
+        }
+        previous = current;
+        current = current->next;
+    }
+    previous->next = current->next;
+    current->next = firstNode;
+    firstNode = current;
+
+}
+
 // Display list of Topics
 template <typename ItemType>
 void List<ItemType>::printTopic() {
@@ -177,7 +199,6 @@ void List<ItemType>::printTopic() {
             topic = topic->next;
             cout << "===================================================================\n";
         }
-        cout << "Type the corresponding number to view a topic: ";
         
     }
     else

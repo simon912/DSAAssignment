@@ -166,22 +166,37 @@ void Login()
 void ViewAllTopic()
 {
     topicList.printTopic();
+    cout << "1) View a topic\n";
+    cout << "2) Sticky a topic\n";
+    cout << "What do you want to use?: ";
     cin >> option;
     cout << endl;
-    for (int i = 0; i < topicList.getLength(); i++)
+    if (option == 1)
     {
+        cout << "Enter the topic number that you want to view\n";
+        cin >> option;
+        for (int i = 0; i < topicList.getLength(); i++)
+        {
             if (option == i)
             {
                 cout << "You have entered the topic, " << topicList.get(i) << endl;
                 cout << "Here are the list of post for this topic: " << endl;
                 return;
-                
+
             }
             else if (option >= topicList.getLength() || option < 1)
             {
                 cout << "Invalid input!\n";
                 return;
             }
+        }
+    }
+    else if (option == 2)
+    {
+        cout << "What topic do you want to pin?: \n";
+        cin >> option;
+        topicList.shifttoFirst(option);
+
     }
     
 }

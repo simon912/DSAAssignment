@@ -156,7 +156,9 @@ ItemType Dictionary<ItemType>::getKey(KeyType key) {
 			return "";
 		}
 		else
+		{
 			newNode = newNode->next;
+		}
 	}
 }
 // Retrieve the Item using the Key
