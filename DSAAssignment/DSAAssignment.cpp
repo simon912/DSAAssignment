@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cstdio>
 #include "Dictionary.h"
 #include "List.h"
 #include "Account.h"
@@ -10,8 +11,7 @@ Topic topic;
 Dictionary<string> accountDictionary;
 List<string> topicList;
 List<string> postList;
-string input;
-int option;
+string option;
 bool loggedIn;
 
 void MainMenu();
@@ -32,7 +32,7 @@ int main()
         MainMenu();
         cin >> option;
         // Login 
-        if (option == 1)
+        if (option == "1")
         {
             Login();
             if (loggedIn == true)
@@ -44,31 +44,34 @@ int main()
                     cout << "What would you like to do?\n";
                     cout << "1) View all topics and posts\n";
                     cout << "2) Create a new topic\n";
-                    cout << "Press any other number to log out\n";
+                    cout << "Press any key to log out\n";
                     cout << "Type your option: ";
                     cin >> option;
                     // Topic and Post
                     // View all Topic (Linked List)
-                    if (option == 1)
+                    if (option == "1")
                     {
                         ViewAllTopic();
                         // put the post list here for that topic i guess
                     }
                     // Create New Topic
-                    else if (option == 2)
+                    else if (option == "2")
                     {
                         CreateTopic();
                     }
                     else
                     {
+                        cin.clear();
+                        cout << endl;
                         cout << "Logging out...\n";
+                        cout << endl;
                         loggedIn = false;
                     }
                 }
             }
         }
         // Register Account
-        else if (option == 2)
+        else if (option == "2")
         {
             Register();
         }
@@ -141,11 +144,13 @@ void Login()
     cout << "                                                                 \n";
     cout << "===================================================================\n";
     cout << "Please enter your User ID: ";
-    cin >> input;
-    account.setUserID(input);
+    cin >> option;
+    account.setUserID(option);
+    getline(cin, option);
     cout << "Please enter your Password: ";
-    cin >> input;
-    account.setPassword(input);
+    cin >> option;
+    account.setPassword(option);
+    getline(cin, option);
     // Verify if user id and password is in hash table
     if (accountDictionary.loginStatus(account.getUserID(), account.getPassword()))
     {
@@ -155,6 +160,11 @@ void Login()
         cout << "                        User is found                            \n";
         cout << "                        Welcome, " << account.getUserID() << "                 \n";
         cout << "===================================================================\n";
+    }
+    else if (account.getUserID().find_first_not_of("\t\n ") != string::npos)
+    {
+        loggedIn = false;
+        cout << "Invalid credential\n";
     }
     else
     {
@@ -169,34 +179,58 @@ void ViewAllTopic()
     topicList.printTopic();
     cout << "1) View a topic\n";
     cout << "2) Sticky a topic\n";
-    cout << "What do you want to use?: ";
+    cout << "Press any key to go back\n";
+    cout << "What do you want to do?: ";
     cin >> option;
     cout << endl;
-    if (option == 1)
+    int selectedTopic;
+    if (option == "1")
     {
         cout << "Enter the topic number that you want to view\n";
-        cin >> option;
+        
+        cin >> selectedTopic;
+        if (cin.fail())
+        {
+            cout << "Invalid input!\n";
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return;
+        }
         for (int i = 0; i < topicList.getLength(); i++)
         {
-            if (option == i)
+            if (selectedTopic == i)
             {
                 cout << "You have entered the topic, " << topicList.get(i) << endl;
                 cout << "Here are the list of post for this topic: " << endl;
                 return;
 
             }
-            else if (option >= topicList.getLength() || option < 1)
+            else if (selectedTopic >= topicList.getLength() || selectedTopic < 1)
             {
                 cout << "Invalid input!\n";
-                return;
+                break;
             }
+            
         }
     }
-    else if (option == 2)
+    else if (option == "2")
     {
         cout << "What topic do you want to pin?: \n";
-        cin >> option;
-        topicList.shifttoFirst(option);
+        cin >> selectedTopic;
+        if (cin.fail())
+        {
+            cout << "Invalid input!\n";
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return;
+        }
+        topicList.shifttoFirst(selectedTopic);
+        
+
+    }
+    else
+    {
+        cout << "Going back...\n";
     }
     
 }
@@ -204,15 +238,15 @@ void ViewAllTopic()
 // Create Topic
 void CreateTopic()
 {
-    string strtopic;
+    string topicName;
     cout << "Creating new topic...\n";
     cout << "Name the topic you want to create: \n";
     // Accepts a string with spacing
     cin.ignore();
-    getline(cin, strtopic);
+    getline(cin, topicName);
 
-    topic.WriteToTopic((topicList.getLength()-1) + 1, strtopic);
-    topicList.add(strtopic);
+    topic.WriteToTopic((topicList.getLength()-1) + 1, topicName);
+    topicList.add(topicName);
 }
 // Register Account
 void Register()
@@ -224,17 +258,26 @@ void Register()
     cout << "|                                                                 |\n";
     cout << "===================================================================\n";
     cout << "Enter your User ID: ";
-    cin >> input;
-    account.setUserID(input);
+    cin >> option;
+    cin.ignore();
+    getline(cin, option);
+    account.setUserID(option);
     cout << "Enter your Password: ";
-    cin >> input;
-    account.setPassword(input);
+    cin >> option;
+    cin.ignore();
+    getline(cin, option);
+    account.setPassword(option);
     string userid = account.getUserID();
     string password = account.getPassword();
     if (accountDictionary.ifKeyExist(userid))
     {
-        cout << "The UserID is already in use!\n";
+        cout << "The User ID is already in use!\n";
         cout << endl;
+    }
+    else if (account.getUserID().find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_") != string::npos || account.getUserID().find_first_not_of("\t\n ") != string::npos)
+    {
+        loggedIn = false;
+        cout << "No special character or spacing in your User ID!\n";
     }
     else
     {
