@@ -6,12 +6,13 @@
 #include "Account.h"
 #include "Topic.h"
 #include "Stack.h"
+#include "Post.h"
 
 Account account;
 Topic topic;
 Dictionary<string> accountDictionary;
 List<Topic> topicList;
-List<string> postList;
+Dictionary<Post> postList;
 string option;
 bool loggedIn;
 
@@ -245,13 +246,7 @@ void displayTopic(int index) {
     cout << "===================================================================" << endl;
     centerAlignText(currentTopic.getTopicName(), true);
     cout << "===================================================================" << endl;
-    currentTopic.postIDs.push("Test1");
-    currentTopic.postIDs.push("Test2");
-    currentTopic.postIDs.push("Test3");
     currentTopic.postIDs.displayContents();
-    cout << "again" << endl;
-    currentTopic.postIDs.displayContents();
-    cout << "again" << endl;
 }
 
 void centerAlignText(string input, bool hasBox) {

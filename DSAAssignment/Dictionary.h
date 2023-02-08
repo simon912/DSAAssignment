@@ -84,19 +84,16 @@ public:
 	// post: none
 	// return true if user is logged in as the UserID that exist; otherwise returns false
 	bool loginStatus(KeyType key, ItemType item);
-	
+
 };
 
 // ------------------------------------------- Implementation of Dictionary class -------------------------------------------
 template <typename ItemType>
 Dictionary<ItemType>::Dictionary() {
 	size = 0;
-	Node* newNode = new Node();
-	newNode->item = "";
-	newNode->key = "";
-	newNode->next = NULL;
+
 	for (int i = 0; i < MAX_SIZE; i++) {
-		items[i] = newNode;
+		items[i] = nullptr;
 	}
 };
 template <typename ItemType>
@@ -115,33 +112,47 @@ int Dictionary<ItemType>::hash(KeyType key) {
 
 // Add something into Hash Table with the Key and Item
 template <typename ItemType>
-bool Dictionary<ItemType>::add(KeyType Key, ItemType newItem) {
-	int index = hash(Key);
-	if (!(index > MAX_SIZE)) {
-		Node* newNode = new Node();
-		newNode->item = newItem;
-		newNode->key = Key;
-		newNode->next = NULL;
-		if (items[index]->item == "")
-			items[index] = newNode;
-		else
-		{
-			Node* current = items[index];
-			bool loop = true;
-			while (loop)
-			{
-				if (current->next == NULL)
-					loop = false;
-				else
-					current = current->next;
-			}
-			current->next = newNode;
-		}
-		size++;
-		return true;
+bool Dictionary<ItemType>::add(KeyType newKey, ItemType newItem) {
+	int hashValue = hash(newKey);
+
+	if (items[hashValue] == nullptr) {
+		Node* temp = new Node;
+
+		temp->key = newKey;
+		temp->item = newItem;
+		temp->next = nullptr;
+
+		items[hashValue] = temp;
 	}
-	return false;
+	else {
+		Node* currentNode = items[hashValue];
+
+		if (currentNode->key == newKey) {
+			return false;
+		}
+
+		while (currentNode->next != nullptr) {
+			currentNode = currentNode->next;
+
+			if (currentNode->key == newKey) {
+				return false;
+			}
+		}
+
+		Node* temp = new Node;
+
+		temp->key = newKey;
+		temp->item = newItem;
+		temp->next = nullptr;
+
+		currentNode->next = temp;
+	}
+
+	size++;
+
+	return true;
 }
+
 // Retrieve the key itself
 template <typename ItemType>
 ItemType Dictionary<ItemType>::getKey(KeyType key) {
