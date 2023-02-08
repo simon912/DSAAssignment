@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdio>
+#include <sstream>
 #include "Dictionary.h"
 #include "List.h"
 #include "Account.h"
@@ -25,6 +26,7 @@ void ViewAllTopic();
 void createTopic();
 void displayTopic(int index);
 void loadPersistentData();
+void readFromPosts();
 void loggedInMenu();
 
 void centerAlignText(string input, bool hasBox);
@@ -77,6 +79,7 @@ void MainMenu()
 void loadPersistentData() {
     ReadFromAccount();
     ReadFromTopic();
+    readFromPosts();
 }
 
 // Load account data from csv file
@@ -116,6 +119,55 @@ void ReadFromTopic()
     }
     allTopic.close();
 }
+
+void readFromPosts() {
+    ifstream file("Data/posts.tsv"); // Open the file
+    string line;
+
+    // Check if the file is open
+    if (file.is_open()) {
+        // Read the file line by line
+        while (getline(file, line)) {
+            string component;
+            istringstream stream(line);
+
+            int counter = 0;
+
+            string postID;
+            Post post;
+
+            while (getline(stream, component, '\t')) {
+                switch (counter)
+                {
+                case 0: // postid
+                    postID = component;
+                    break;
+                case 1: // authorid
+                    post.setAuthor(component);
+                    break;
+                case 2: // content
+                    post.setContent(component);
+                    break;
+                case 3: // votes
+                    post.setVotes(stoi(component));
+                    break;
+                default: // append to repliesIDs
+                    post.replyIDs.enqueue(component);
+                    break;
+                }
+
+                counter++;
+            }
+
+            postList.add(postID, post);
+        }
+        
+        file.close();
+    } else {
+        cout << "Could not read posts.csv" << endl;
+    }
+}
+
 // Login Account
 void Login()
 {

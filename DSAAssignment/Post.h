@@ -20,4 +20,14 @@ public:
 	Post(string topic, string postName, string content, string author);
 
 	string getPostName();
+	void setPostName(string postName);
+
+	string getContent();
+	void setContent(string content);
+
+	string getAuthor();
+	void setAuthor(string authorID);
+
+	int getVotes();
+	void setVotes(int votes);
 };
