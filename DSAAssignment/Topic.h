@@ -3,17 +3,19 @@
 
 #include<string>
 #include<iostream>
+#include"Stack.h"
 using namespace std;
 
 class Topic
 {
 private:
-	int topicid;
 	string topicName;
 
 public:
+	Stack postIDs;
+
 	Topic();
-	Topic(int topicid, string topicName);
+	Topic(string topicName);
 	void setTopicName(string topicName);
 	string getTopicName();
 	void setTopicID(int topicid);

@@ -4,24 +4,16 @@
 #include <fstream>;
 
 Topic::Topic() {}
-Topic::Topic(int tid, string tName) {
-	topicid = tid;
+Topic::Topic(string tName) {
 	topicName = tName;
 }
+
 void Topic::setTopicName(string tName) {
 	topicName = tName;
 }
 
 string Topic::getTopicName() {
 	return topicName;
-}
-
-void Topic::setTopicID(int tid) {
-	topicid = tid;
-}
-
-int Topic::getTopicID() {
-	return topicid;
 }
 
 void Topic::WriteToTopic(int topicid, string topicName)

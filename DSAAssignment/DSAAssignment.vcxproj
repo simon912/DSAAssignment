@@ -144,6 +144,7 @@
     <ClCompile Include="DSAAssignment.cpp" />
     <ClCompile Include="List.cpp" />
     <ClCompile Include="Post.cpp" />
+    <ClCompile Include="Stack.cpp" />
     <ClCompile Include="Topic.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +152,7 @@
     <ClInclude Include="Dictionary.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Post.h" />
+    <ClInclude Include="Stack.h" />
     <ClInclude Include="Topic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

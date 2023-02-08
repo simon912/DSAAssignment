@@ -2,6 +2,7 @@
 #include<string>
 #include<iostream>
 #include"Dictionary.h"
+#include"Topic.h"
 
 using namespace std;
 
@@ -191,9 +192,10 @@ template <typename ItemType>
 void List<ItemType>::printTopic() {
     Node* topic = firstNode;
     if (size != NULL)
-    {
+    {   
         for (int i = 0; i < size; i++) {
-            cout << "[" << i + 1 << "] " << "| " << topic->item << endl;
+            Topic item = topic->item;
+            cout << "[" << i + 1 << "] " << "| " << item.getTopicName() << endl;
             topic = topic->next;
         }
     }

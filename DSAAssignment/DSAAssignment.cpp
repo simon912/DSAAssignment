@@ -5,11 +5,12 @@
 #include "List.h"
 #include "Account.h"
 #include "Topic.h"
+#include "Stack.h"
 
 Account account;
 Topic topic;
 Dictionary<string> accountDictionary;
-List<string> topicList;
+List<Topic> topicList;
 List<string> postList;
 string option;
 bool loggedIn;
@@ -110,7 +111,7 @@ void ReadFromTopic()
         string topic;
         getline(allTopic, topicid, ',');
         getline(allTopic, topic, '\n');
-        topicList.add(topic);
+        topicList.add(Topic(topic));
     }
     allTopic.close();
 }
@@ -163,7 +164,7 @@ void createTopic()
     getline(cin, topicName);
 
     topic.WriteToTopic((topicList.getLength()-1) + 1, topicName);
-    topicList.add(topicName);
+    topicList.add(Topic(topicName));
 }
 // Register Account
 void Register()
@@ -238,12 +239,19 @@ void loggedInMenu() {
 }
 
 void displayTopic(int index) {
+    Topic currentTopic = topicList.get(index);
+
     cout << endl << endl;
     cout << "===================================================================" << endl;
-    centerAlignText(topicList.get(index), true);
+    centerAlignText(currentTopic.getTopicName(), true);
     cout << "===================================================================" << endl;
-
-    cout << "Here are the list of post for this topic: " << endl;
+    currentTopic.postIDs.push("Test1");
+    currentTopic.postIDs.push("Test2");
+    currentTopic.postIDs.push("Test3");
+    currentTopic.postIDs.displayContents();
+    cout << "again" << endl;
+    currentTopic.postIDs.displayContents();
+    cout << "again" << endl;
 }
 
 void centerAlignText(string input, bool hasBox) {
