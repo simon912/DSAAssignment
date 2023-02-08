@@ -20,13 +20,18 @@ void ReadFromTopic();
 void Login();
 void Register();
 void ViewAllTopic();
-void CreateTopic();
+void createTopic();
+void displayTopic(int index);
+void loadPersistentData();
+void loggedInMenu();
+
+void centerAlignText(string input, bool hasBox);
 
 int main()
 {
     // Load the data
-    ReadFromAccount();
-    ReadFromTopic();
+    loadPersistentData();
+
     while (true)
     {
         MainMenu();
@@ -35,39 +40,9 @@ int main()
         if (option == "1")
         {
             Login();
-            if (loggedIn == true)
-            {
-                while (loggedIn == true)
-                {
-                    // Viewing the Forum
-                    cout << endl;
-                    cout << "What would you like to do?\n";
-                    cout << "1) View all topics and posts\n";
-                    cout << "2) Create a new topic\n";
-                    cout << "Press any key to log out\n";
-                    cout << "Type your option: ";
-                    cin >> option;
-                    // Topic and Post
-                    // View all Topic (Linked List)
-                    if (option == "1")
-                    {
-                        ViewAllTopic();
-                        // put the post list here for that topic i guess
-                    }
-                    // Create New Topic
-                    else if (option == "2")
-                    {
-                        CreateTopic();
-                    }
-                    else
-                    {
-                        cin.clear();
-                        cout << endl;
-                        cout << "Logging out...\n";
-                        cout << endl;
-                        loggedIn = false;
-                    }
-                }
+            
+            while (loggedIn == true) {
+                loggedInMenu();
             }
         }
         // Register Account
@@ -95,6 +70,11 @@ void MainMenu()
     cout << "2) Register\n";
     cout << "===================================================================\n";
     cout << "Type your option or press any key to exit: ";
+}
+
+void loadPersistentData() {
+    ReadFromAccount();
+    ReadFromTopic();
 }
 
 // Load account data from csv file
@@ -157,8 +137,7 @@ void Login()
         loggedIn = true;
         cout << endl;
         cout << "===================================================================\n";
-        cout << "                        User is found                            \n";
-        cout << "                        Welcome, " << account.getUserID() << "                 \n";
+        centerAlignText("Welcome, " + account.getUserID(), false);
         cout << "===================================================================\n";
     }
     else if (account.getUserID().find_first_not_of("\t\n ") != string::npos)
@@ -173,70 +152,8 @@ void Login()
     }
 }
 
-// View all Topic 
-void ViewAllTopic()
-{
-    topicList.printTopic();
-    cout << "1) View a topic\n";
-    cout << "2) Sticky a topic\n";
-    cout << "Press any key to go back\n";
-    cout << "What do you want to do?: ";
-    cin >> option;
-    cout << endl;
-    int selectedTopic;
-    if (option == "1")
-    {
-        cout << "Enter the topic number that you want to view\n";
-        
-        cin >> selectedTopic;
-        if (cin.fail())
-        {
-            cout << "Invalid input!\n";
-            cin.clear();
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            return;
-        }
-        for (int i = 0; i < topicList.getLength(); i++)
-        {
-            if (selectedTopic == i)
-            {
-                cout << "You have entered the topic, " << topicList.get(i) << endl;
-                cout << "Here are the list of post for this topic: " << endl;
-                return;
-
-            }
-            else if (selectedTopic >= topicList.getLength() || selectedTopic < 1)
-            {
-                cout << "Invalid input!\n";
-                break;
-            }
-            
-        }
-    }
-    else if (option == "2")
-    {
-        cout << "What topic do you want to pin?: \n";
-        cin >> selectedTopic;
-        if (cin.fail())
-        {
-            cout << "Invalid input!\n";
-            cin.clear();
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            return;
-        }
-        topicList.shifttoFirst(selectedTopic);
-        
-
-    }
-    else
-    {
-        cout << "Going back...\n";
-    }
-    
-}
-
 // Create Topic
-void CreateTopic()
+void createTopic()
 {
     string topicName;
     cout << "Creating new topic...\n";
@@ -286,4 +203,62 @@ void Register()
         cout << "Account has been successfully created!\n";
         cout << endl;
     }
+}
+
+void loggedInMenu() {
+    // Viewing the Forum
+    cout << endl;
+    cout << "What would you like to do?" << endl;
+    cout << "===================================================================" << endl;
+    cout << "[0] Create a new topic" << endl;
+    cout << "-------------------------------------------------------------------" << endl;
+    cout << "Explore the forum!" << endl;
+    topicList.printTopic();
+    cout << "-------------------------------------------------------------------" << endl;
+    cout << "Any other key to log out." << endl;
+    cout << "===================================================================" << endl;
+    cout << "Type your option and press enter: ";
+    
+    int value;
+    if (cin >> value && value <= topicList.getLength()) {
+        if (value == 0) {
+            createTopic();
+        } else {
+            displayTopic(value - 1);
+        }
+    } else {
+        // input was invalid
+        cout << "===================================================================" << endl;
+        cout << "Logging out... Bye!" << endl;
+        cout << "===================================================================" << endl;
+        cin.clear();
+        loggedIn = false;
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+}
+
+void displayTopic(int index) {
+    cout << endl << endl;
+    cout << "===================================================================" << endl;
+    centerAlignText(topicList.get(index), true);
+    cout << "===================================================================" << endl;
+
+    cout << "Here are the list of post for this topic: " << endl;
+}
+
+void centerAlignText(string input, bool hasBox) {
+    int viewportWidth = 67;
+    int leadingSpaceCount = (viewportWidth - input.length()) / 2 - (hasBox ? 1 : 0);
+    int trailingSpaceCount = viewportWidth - leadingSpaceCount - input.length() - (hasBox ? 1 : 0) - 1;
+
+    if (hasBox) { cout << "|"; }
+    for (int i = 0; i < leadingSpaceCount; ++i) {
+        cout << " ";
+    }
+    cout << input;
+    for (int i = 0; i < trailingSpaceCount; ++i) {
+        cout << " ";
+    }
+    if (hasBox) { cout << "|"; }
+    cout << endl;
 }

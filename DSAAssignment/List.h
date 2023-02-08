@@ -192,13 +192,10 @@ void List<ItemType>::printTopic() {
     Node* topic = firstNode;
     if (size != NULL)
     {
-        cout << "===================================================================\n";
         for (int i = 0; i < size; i++) {
-            cout << "[" << i << "] " << "| " << topic->item << endl;
+            cout << "[" << i + 1 << "] " << "| " << topic->item << endl;
             topic = topic->next;
-            cout << "===================================================================\n";
         }
-        
     }
     else
     {
