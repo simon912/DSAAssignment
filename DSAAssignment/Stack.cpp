@@ -1,4 +1,6 @@
 #include "Stack.h"
+#include "Dictionary.h"
+#include "Post.h"
 using namespace std;
 
 Stack::Stack() {
@@ -56,7 +58,7 @@ bool Stack::isEmpty() {
     return (topNode == nullptr);
 }
 
-void Stack::displayContents() {
+void Stack::displayContents(Dictionary<Post>& posts) {
     Stack tempStack;
 
     while (!isEmpty()) {
@@ -64,7 +66,10 @@ void Stack::displayContents() {
         getTop(item);
         pop();
         tempStack.push(item);
-        cout << item << endl;
+
+        Post post = posts.get(item);
+        
+        cout << post.getPostName() << endl;
     }
 
     while (!tempStack.isEmpty()) {

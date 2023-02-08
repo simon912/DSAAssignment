@@ -8,3 +8,7 @@ Post::Post(string topic, string postName, string content, string author) {
 	content = content;
 	author = author;
 }
+
+string Post::getPostName() {
+	return postName;
+}

@@ -8,11 +8,12 @@ using namespace std;
 class Post 
 {
 private:
-	string topic;
 	string postName;
 	string content;
 	string author;
 public:
 	Post();
 	Post(string topic, string postName, string content, string author);
+
+	string getPostName();
 };

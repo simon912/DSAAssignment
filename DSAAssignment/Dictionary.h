@@ -175,19 +175,9 @@ ItemType Dictionary<ItemType>::getKey(KeyType key) {
 // Retrieve the Item using the Key
 template <typename ItemType>
 ItemType Dictionary<ItemType>::get(KeyType key) {
-	int index = hash(key);
-	Node* newNode = items[index];
-	while (newNode != NULL)
-	{
-		if (newNode->key == key) {
-			return newNode->item;
-		}
-		else if (newNode->next == NULL) {
-			return "";
-		}
-		else
-			newNode = newNode->next;
-	}
+	int hashValue = hash(key);
+    
+    return items[hashValue]->item;
 }
 
 // For Register

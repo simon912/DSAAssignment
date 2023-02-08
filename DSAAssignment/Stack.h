@@ -2,6 +2,8 @@
 #pragma once
 #include<string>
 #include<iostream>
+#include "Dictionary.h"
+#include "Post.h"
 
 using namespace std;
 
@@ -40,5 +42,5 @@ public:
     // check if the stack is empty
     bool isEmpty();
 
-    void displayContents();
+    void displayContents(Dictionary<Post>& posts);
 };

@@ -246,7 +246,7 @@ void displayTopic(int index) {
     cout << "===================================================================" << endl;
     centerAlignText(currentTopic.getTopicName(), true);
     cout << "===================================================================" << endl;
-    currentTopic.postIDs.displayContents();
+    currentTopic.postIDs.displayContents(postList);
 }
 
 void centerAlignText(string input, bool hasBox) {
