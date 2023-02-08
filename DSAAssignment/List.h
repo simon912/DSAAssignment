@@ -195,7 +195,20 @@ void List<ItemType>::printTopic() {
     {   
         for (int i = 0; i < size; i++) {
             Topic item = topic->item;
-            cout << "[" << i + 1 << "] " << "| " << item.getTopicName() << endl;
+            int viewportWidth = 67;
+            string stringToPrint = "[" + to_string(i + 1) + "] | " + item.getTopicName();
+            string postCount = to_string(item.postIDs.getLength());
+
+            int spacesToAdd = viewportWidth - stringToPrint.length() - postCount.length();
+
+            cout << stringToPrint;
+
+            for (int i = 0; i < spacesToAdd; ++i) {
+                cout << " ";
+            }
+
+            cout << postCount << endl;
+
             topic = topic->next;
         }
     }

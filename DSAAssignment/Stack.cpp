@@ -79,3 +79,22 @@ void Stack::displayContents(Dictionary<Post>& posts) {
         push(item);
     }
 }
+
+int Stack::getLength() {
+    Stack tempStack;
+    int length = 0;
+    while (!isEmpty()) {
+        ItemType item;
+        pop(item);
+        length++;
+        tempStack.push(item);
+    }
+    
+    while (!tempStack.isEmpty()) {
+        ItemType item;
+        tempStack.pop(item);
+        push(item);
+    }
+    
+    return length;
+}

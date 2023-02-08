@@ -18,8 +18,7 @@ public:
 	Topic(string topicName);
 	void setTopicName(string topicName);
 	string getTopicName();
-	void setTopicID(int topicid);
-	int getTopicID();
+	
 	void WriteToTopic(int topicid, string topicName);
 	void RemoveTopic();
 };

@@ -28,6 +28,7 @@ void displayTopic(int index);
 void loadPersistentData();
 void readFromPosts();
 void loggedInMenu();
+void writeAllTopics();
 
 void centerAlignText(string input, bool hasBox);
 
@@ -103,21 +104,36 @@ void ReadFromAccount()
 // Load topic data from csv file
 void ReadFromTopic()
 {
-    ifstream allTopic;
-    allTopic.open("Data/topicdata.csv");
-    if (allTopic.fail())
-    {
-        cout << "File can't be opened\n";
+    ifstream file("Data/topicdata.tsv"); // Open the file
+    string line;
+
+    // Check if the file is open
+    if (file.is_open()) {
+        // Read the file line by line
+        while (getline(file, line)) {
+            string component;
+            istringstream stream(line);
+
+            bool isTopicTitle = true;
+
+            Topic topic;
+
+            while (getline(stream, component, '\t')) {
+                if (isTopicTitle) {
+                    isTopicTitle = false;
+                    topic.setTopicName(component);
+                } else {
+                    topic.postIDs.push(component);
+                }
+            }
+
+            topicList.add(topic);
+        }
+        
+        file.close();
+    } else {
+        cout << "Could not read posts.csv" << endl;
     }
-    allTopic.ignore(numeric_limits<streamsize>::max(), '\n'); // ignore the first line of the data file
-    while (allTopic.peek() != EOF) {
-        string topicid;
-        string topic;
-        getline(allTopic, topicid, ',');
-        getline(allTopic, topic, '\n');
-        topicList.add(Topic(topic));
-    }
-    allTopic.close();
 }
 
 void readFromPosts() {
@@ -216,9 +232,51 @@ void createTopic()
     cin.ignore();
     getline(cin, topicName);
 
-    topic.WriteToTopic((topicList.getLength()-1) + 1, topicName);
+    // topic.WriteToTopic((topicList.getLength()-1) + 1, topicName);
     topicList.add(Topic(topicName));
+    writeAllTopics();
 }
+
+void writeAllTopics() {
+    string data = "";
+    ofstream file("Data/topicdata.tsv");
+
+    for (int i = 0; i < topicList.getLength(); i++)
+    {
+        Topic topic = topicList.get(i);
+        string topicName = topic.getTopicName();
+
+        data += topicName;
+
+        Stack tempStack;
+        
+        while (!topic.postIDs.isEmpty()) {
+            string item;
+            topic.postIDs.pop(item);
+            data += "\t" + item;
+            tempStack.push(item);
+        }
+        
+        while (!tempStack.isEmpty()) {
+            string item;
+            tempStack.pop(item);
+            topic.postIDs.push(item);
+        }
+
+        data += "\n";
+    }
+
+    // Check if the file is open
+    if (file.is_open()) {
+        
+        // Write the data to the file
+        file << data;
+
+        // Close the file
+        file.close();
+    }
+}
+
 // Register Account
 void Register()
 {

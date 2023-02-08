@@ -43,4 +43,6 @@ public:
     bool isEmpty();
 
     void displayContents(Dictionary<Post>& posts);
+
+    int getLength();
 };

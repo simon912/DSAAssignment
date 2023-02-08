@@ -15,10 +15,3 @@ void Topic::setTopicName(string tName) {
 string Topic::getTopicName() {
 	return topicName;
 }
-
-void Topic::WriteToTopic(int topicid, string topicName)
-{
-	fstream fout;
-	fout.open("Data/topicdata.csv", ios::out | ios::app);
-	fout << topicid << "," << topicName << "\n";
-}
