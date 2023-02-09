@@ -524,7 +524,7 @@ void displayPost(string postID) {
         if (account.getUserID() == post.getAuthor()) {
             cout << endl;
             cout << "[2] Edit Post" << endl;
-            //cout << "[3] Delete Post" << endl;
+            cout << "[3] Delete Post" << endl;
         }
         cout << "-------------------------------------------------------------------" << endl;
         cout << "Any other number to go back." << endl;
