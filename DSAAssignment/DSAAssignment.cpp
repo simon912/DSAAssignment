@@ -301,13 +301,9 @@ void Register()
     cout << "===================================================================\n";
     cout << "Enter your User ID: ";
     cin >> option;
-    cin.ignore();
-    getline(cin, option);
     account.setUserID(option);
     cout << "Enter your Password: ";
     cin >> option;
-    cin.ignore();
-    getline(cin, option);
     account.setPassword(option);
     string userid = account.getUserID();
     string password = account.getPassword();
@@ -316,7 +312,7 @@ void Register()
         cout << "The User ID is already in use!\n";
         cout << endl;
     }
-    else if (account.getUserID().find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_") != string::npos || account.getUserID().find_first_not_of("\t\n ") != string::npos)
+    else if (account.getUserID().find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890_") != string::npos)
     {
         loggedIn = false;
         cout << "No special character or spacing in your User ID!\n";

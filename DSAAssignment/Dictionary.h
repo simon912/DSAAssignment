@@ -205,18 +205,14 @@ template <typename ItemType>
 bool Dictionary<ItemType>::ifKeyExist(KeyType key)
 {
 	int index = hash(key);
-	Node* newNode = items[index];
-	while (newNode != NULL)
-	{
-		if (getKey(key) == key)
-		{
+	Node* current = items[index];
+	while (current != nullptr) {
+		if (current->key == key) {
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		current = current->next;
 	}
+	return false;
 }
 template <typename ItemType>
 bool Dictionary<ItemType>::loginStatus(KeyType key, ItemType item)
