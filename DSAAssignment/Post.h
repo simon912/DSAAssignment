@@ -17,7 +17,7 @@ public:
 	Queue replyIDs;
 
 	Post();
-	Post(string topic, string postName, string content, string author);
+	Post(string postName, string content, string author);
 
 	string getPostName();
 	void setPostName(string postName);

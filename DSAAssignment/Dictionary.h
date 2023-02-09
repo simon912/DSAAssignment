@@ -122,9 +122,10 @@ int Dictionary<ItemType>::charvalue(char c)
             return (int)c - (int) 'A';
         else
             return (int)c - (int) 'a' + 26;
-    }
-    else
-        return -1;
+    } else if (isdigit(c)) {
+		return (int)c;
+	}
+    return -1;
 }
 
 // Add something into Hash Table with the Key and Item

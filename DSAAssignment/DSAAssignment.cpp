@@ -30,7 +30,7 @@ void loadPersistentData();
 void readFromPosts();
 void loggedInMenu();
 void writeAllTopics();
-void writeAllPosts();
+void writePost(string key);
 
 string generateRandomID(std::size_t n);
 
@@ -389,7 +389,6 @@ void newPostInTopic(int index) {
     Topic topic;
     topicList.get(index, &topic);
 
-    Post post;
     string postID = generateRandomID(32);
     cout << "===================================================================" << endl;
     centerAlignText("Create New Post", true);
@@ -397,16 +396,19 @@ void newPostInTopic(int index) {
     cout << "===================================================================" << endl;
     cout << "Title: ";
 
-    string input;
-    cin >> input;
-    getline(cin, input);
-    post.setPostName(input);
+    string postName;
+    cin >> postName;
+    // getline(cin, postName);
 
+    string content;
     cout << "Contents: ";
-    cin >> input;
-    getline(cin, input);
-    post.setContent(input);
+    cin >> content;
+    // getline(cin, content);
 
+    Post post = Post(postName, content, account.getUserID());
+    
+    post.setPostName(postName);
+    post.setContent(content);
     post.setAuthor(account.getUserID());
     post.setVotes(0);
 
@@ -423,7 +425,7 @@ void newPostInTopic(int index) {
     cout << topicList.get(index).postIDs.getLength() << endl;
 
     writeAllTopics();
-    writeAllPosts();
+    writePost(postID);
 }
 
 Post getPostFromTopic(Topic topic, int index) {
@@ -474,8 +476,19 @@ void displayPost(Post post) {
     }
 }
 
-void writeAllPosts() {
-    
+void writePost(string key) {
+    Post post = postList.get(key);
+    cout << post.getAuthor() << endl;
+    cout << post.getPostName() << endl;
+    string value = key + "\t" + post.getAuthor() + "\t" + post.getPostName() + "\t" + post.getContent() + "\t" + to_string(post.getVotes());
+    ofstream file;
+    file.open("Data/posts.tsv", ios::app);
+    if (file.is_open()) {
+        file << endl << value << endl;
+        file.close();
+    } else {
+        cout << "Could not open file for appending." << endl;
+    }
 }
 
 void centerAlignText(string input, bool hasBox) {

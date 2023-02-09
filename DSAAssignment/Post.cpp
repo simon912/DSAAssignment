@@ -2,8 +2,7 @@
 #include "Post.h"
 
 Post::Post() {}
-Post::Post(string topic, string postName, string content, string author) {
-	topic = topic;
+Post::Post(string postName, string content, string author) {
 	postName = postName;
 	content = content;
 	author = author;
