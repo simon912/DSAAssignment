@@ -1,9 +1,18 @@
+/*
+=============================================
+|	Group 10							    |
+|	Name of Member 1: Simon Kwek			|
+|	Student ID of Member 1 : S10228098J		|
+|	Name of Member 2 : Yee Jia Chen			|
+|	Student ID of Member 2 : S10219344C		|
+=============================================
+*/
+// the header files 
 #include <iostream>
 #include <fstream>
 #include <cstdio>
 #include <sstream>
 #include <random>
-
 #include "Dictionary.h"
 #include "List.h"
 #include "Account.h"
@@ -11,6 +20,7 @@
 #include "Stack.h"
 #include "Post.h"
 
+// the following functions  
 Account account;
 Dictionary<string> accountDictionary;
 List<Topic> topicList;

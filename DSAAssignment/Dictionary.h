@@ -1,3 +1,13 @@
+/*
+=============================================
+|	Group 10							    |
+|	Name of Member 1: Simon Kwek			|
+|	Student ID of Member 1 : S10228098J		|
+|	Name of Member 2 : Yee Jia Chen			|
+|	Student ID of Member 2 : S10219344C		|
+=============================================
+*/
+// Dictionary.h - Specification of Dictionary ADT (Pointer-based)
 #pragma once
 #include<string>
 #include<iostream>
@@ -218,18 +228,14 @@ template <typename ItemType>
 bool Dictionary<ItemType>::loginStatus(KeyType key, ItemType item)
 {
 	int index = hash(key);
-	Node* newNode = items[index];
-	while (newNode != NULL)
-	{
-		if (getKey(key) == key && get(key) == item)
-		{
+	Node* current = items[index];
+	while (current != nullptr) {
+		if (current->key == key && current->item == item) {
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		current = current->next;
 	}
+	return false;
 }
 
 // Remove an entry from the Hash Table
