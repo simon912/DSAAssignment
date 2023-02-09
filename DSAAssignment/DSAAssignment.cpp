@@ -369,7 +369,7 @@ void displayTopic(int index) {
     cout << "-------------------------------------------------------------------" << endl;
     currentTopic.postIDs.displayContents(postList);
     cout << "-------------------------------------------------------------------" << endl;
-    cout << "Any other key to go back." << endl;
+    cout << "Any other number to go back." << endl;
     cout << "===================================================================" << endl;
     cout << "Type your option and press enter: ";
 
@@ -418,6 +418,7 @@ void newPostInTopic(int index) {
     cout << "===================================================================" << endl;
 
     topic.postIDs.push(postID);
+    
     postList.add(postID, post);
 
     topicList.replace(index, topic);
@@ -467,12 +468,37 @@ void displayPost(Post post) {
     cout << post.getContent() << endl;
     cout << "-------------------------------------------------------------------" << endl;
     cout << "[0] Like Post" << endl;
-    cout << "[1] View Replies" << endl;
+    cout << "[1] View Replies (" + to_string(post.replyIDs.getLength()) + ")" << endl;
 
     if (account.getUserID() == post.getAuthor()) {
         cout << endl;
         cout << "[2] Edit Post" << endl;
         cout << "[3] Delete Post" << endl;
+    }
+    cout << "-------------------------------------------------------------------" << endl;
+    cout << "Any other number to go back." << endl;
+    cout << "===================================================================" << endl;
+    cout << "Type your option and press enter: ";
+
+    int value;
+    cin >> value;
+
+    switch (value)
+    {
+    case 0:
+        // Like post
+        break;
+    case 1:
+        // View replies post
+        break;
+    case 2:
+        // Edit post
+        break;
+    case 3:
+        // Delete post
+        break;
+    default:
+        break;
     }
 }
 

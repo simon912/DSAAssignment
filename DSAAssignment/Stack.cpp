@@ -65,7 +65,7 @@ void Stack::displayContents(Dictionary<Post>& posts) {
 
     int counter = 0;
     
-    while (!isEmpty()) {
+    while (counter <= length) {
         counter++;
 
         string item;
@@ -95,20 +95,5 @@ void Stack::displayContents(Dictionary<Post>& posts) {
 }
 
 int Stack::getLength() {
-    Stack tempStack;
-    int length = 0;
-    while (!isEmpty()) {
-        ItemType item;
-        pop(item);
-        length++;
-        tempStack.push(item);
-    }
-    
-    while (!tempStack.isEmpty()) {
-        ItemType item;
-        tempStack.pop(item);
-        push(item);
-    }
-    
     return length;
 }

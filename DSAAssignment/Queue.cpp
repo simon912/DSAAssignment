@@ -6,6 +6,7 @@ using namespace std;
 Queue::Queue() {
     frontNode = nullptr;
     backNode = nullptr;
+    length = 0;
 }
 
 Queue::~Queue() {
@@ -87,4 +88,8 @@ void Queue::displayItems() {
         enqueue(firstItem);
     }
 
+}
+
+int Queue::getLength() {
+    return length;
 }

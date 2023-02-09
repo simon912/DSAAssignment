@@ -20,6 +20,8 @@ private:
     Node* frontNode;    // point to the first item
     Node* backNode;    // point to the first item
 
+    int length;
+
 
 public:
     // constructor
@@ -44,4 +46,6 @@ public:
 
     // display items in queue from front to back
     void displayItems();
+
+    int getLength();
 };
