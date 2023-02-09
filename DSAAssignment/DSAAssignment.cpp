@@ -420,9 +420,11 @@ void displayTopic(int index) {
             } else if (value == -2) {
                 currentTopic.setPinnedPost(string());
                 topicList.replace(index, currentTopic);
-            } else {
-                showTopic = false;
-            }
+            } 
+            
+        }
+        else {
+            showTopic = false;
         }
     }
 }
