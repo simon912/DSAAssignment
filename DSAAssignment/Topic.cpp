@@ -15,3 +15,15 @@ void Topic::setTopicName(string tName) {
 string Topic::getTopicName() {
 	return topicName;
 }
+
+bool Topic::hasPinnedPost() {
+	return pinnedPost != string();
+}
+
+string Topic::getPinnedPost() {
+	return pinnedPost;
+}
+
+void Topic::setPinnedPost(string postID) {
+	pinnedPost = postID;
+}

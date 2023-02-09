@@ -22,4 +22,9 @@ public:
 
 	void WriteToTopic(int topicid, string topicName);
 	void RemoveTopic();
+
+	string getPinnedPost();
+	void setPinnedPost(string postID);
+
+	bool hasPinnedPost();
 };

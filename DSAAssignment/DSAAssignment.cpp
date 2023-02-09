@@ -41,6 +41,8 @@ void newPostInTopic(int index);
 string getPostFromTopic(Topic topic, int index);
 void displayPost(string postID);
 
+void pinPost(int topicIndex);
+
 int main()
 {
     // Load the data
@@ -361,31 +363,73 @@ void loggedInMenu() {
 }
 
 void displayTopic(int index) {
-    Topic currentTopic = topicList.get(index);
-    
-    cout << endl << endl;
-    cout << "===================================================================" << endl;
-    centerAlignText(currentTopic.getTopicName(), true);
-    cout << "===================================================================" << endl;
-    cout << "[-1] Pin/Stick a post" << endl;
-    cout << "[0] Create a new post in " + currentTopic.getTopicName() << endl;
-    cout << "-------------------------------------------------------------------" << endl;
-    currentTopic.postIDs.displayContents(postList);
-    cout << "-------------------------------------------------------------------" << endl;
-    cout << "Any other number to go back." << endl;
-    cout << "===================================================================" << endl;
-    cout << "Type your option and press enter: ";
+    bool showTopic = true;
 
-    int value;
-    if (cin >> value && value <= currentTopic.postIDs.getLength()) {
-        if (value == 0) {
-            // New Post
-            newPostInTopic(index);
+    while (showTopic) {
+        Topic currentTopic = topicList.get(index);
+        
+        cout << endl << endl;
+        cout << "===================================================================" << endl;
+        centerAlignText(currentTopic.getTopicName(), true);
+        cout << "===================================================================" << endl;
+        if (currentTopic.hasPinnedPost()) {
+            cout << "[-1] PINNED POST" << endl;
+            Post pinnedPost = postList.get(currentTopic.getPinnedPost());
+
+            cout << "     " + pinnedPost.getPostName() << endl;
+            cout << "     " + pinnedPost.getContent() << endl << endl;
+            cout << "     By " + pinnedPost.getAuthor() << endl << endl;
+
+            cout << "[-2] Remove pinned post" << endl;
         } else {
-            string postID = getPostFromTopic(currentTopic, value - 1);
-            displayPost(postID);
+            cout << "[-1] Pin/Stick a post" << endl;
+        }
+        
+        cout << "-------------------------------------------------------------------" << endl;
+        cout << "[0] Create a new post in " + currentTopic.getTopicName() << endl;
+        cout << "-------------------------------------------------------------------" << endl;
+        currentTopic.postIDs.displayContents(postList);
+        cout << "-------------------------------------------------------------------" << endl;
+        cout << "Any other number to go back." << endl;
+        cout << "===================================================================" << endl;
+        cout << "Type your option and press enter: ";
+
+        int value;
+        if (cin >> value && value <= currentTopic.postIDs.getLength()) {
+            if (value == 0) {
+                // New Post
+                newPostInTopic(index);
+            } else if (value > 0) {
+                string postID = getPostFromTopic(currentTopic, value - 1);
+                displayPost(postID);
+            } else if (value == -1) {
+                // Stick sticky post stickily
+                if (currentTopic.hasPinnedPost()) {
+                    // Open pinned post
+                    displayPost(currentTopic.getPinnedPost());
+                } else {
+                    // Select a post number to pin
+                    pinPost(index);
+                }
+            } else if (value == -2) {
+                currentTopic.setPinnedPost(string());
+                topicList.replace(index, currentTopic);
+            } else {
+                showTopic = false;
+            }
         }
     }
+}
+
+void pinPost(int topicIndex) {
+    Topic currentTopic = topicList.get(topicIndex);
+    cout << "Which post would you like to pin? " << endl;
+    int value;
+    if (cin >> value && value <= currentTopic.postIDs.getLength() && value > 0) {
+        string postID = getPostFromTopic(currentTopic, value - 1);
+        currentTopic.setPinnedPost(postID);
+    }
+    topicList.replace(topicIndex, currentTopic);
 }
 
 void newPostInTopic(int index) {
