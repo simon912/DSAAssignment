@@ -6,6 +6,7 @@ Post::Post(string postName, string content, string author) {
 	postName = postName;
 	content = content;
 	author = author;
+	votes = 0;
 }
 
 string Post::getPostName() {

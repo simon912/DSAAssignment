@@ -10,6 +10,7 @@ class Topic
 {
 private:
 	string topicName;
+	string pinnedPost;
 
 public:
 	Stack postIDs;
@@ -18,7 +19,7 @@ public:
 	Topic(string topicName);
 	void setTopicName(string topicName);
 	string getTopicName();
-	
+
 	void WriteToTopic(int topicid, string topicName);
 	void RemoveTopic();
 };

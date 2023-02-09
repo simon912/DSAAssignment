@@ -87,6 +87,8 @@ public:
 	bool loginStatus(KeyType key, ItemType item);
 
 	int charvalue(char c);
+
+	void remove(KeyType key);
 };
 
 // ------------------------------------------- Implementation of Dictionary class -------------------------------------------
@@ -234,46 +236,16 @@ bool Dictionary<ItemType>::loginStatus(KeyType key, ItemType item)
 	}
 }
 
-/* -- Probably not needed --
 // Remove an entry from the Hash Table
 template <typename ItemType>
 void Dictionary<ItemType>::remove(KeyType key) {
-	if (!isEmpty()) {
-		int index = hash(key);
-		Node* newNode = items[index];
-		Node* current = items[index];
-		bool loop = true;
-		if (current->key == key) {
-			Node* temp = current;
-			items[index] = current->next;
-			delete temp;
-			size--;
-			cout << "Item removed" << endl;
-			return;
-		}
-		current = newNode->next;
-		while (loop)
-		{
-			if (current->key == key) {
-				Node* temp = current;
-				newNode->next = current->next;
-				delete temp;
-				size--;
-				cout << "Item removed" << endl;
-				break;
-			}
-			else if (current->next == NULL) {
-				break;
-			}
-			else {
-				newNode = newNode->next;
-				current = current->next;
-			}
-		}
-	}
-	else
-		cout << "Item is not removed (Item not found)" << endl;
-}*/
+	int hashValue = hash(key);
+    
+    if (items[hashValue] != nullptr) {
+        items[hashValue] = nullptr;
+        size--;
+    }
+}
 // Check if Hash Table is empty
 template <typename ItemType>
 bool Dictionary<ItemType>::isEmpty() {

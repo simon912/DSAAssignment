@@ -362,7 +362,7 @@ void loggedInMenu() {
 
 void displayTopic(int index) {
     Topic currentTopic = topicList.get(index);
-    
+
     cout << endl << endl;
     cout << "===================================================================" << endl;
     centerAlignText(currentTopic.getTopicName(), true);
