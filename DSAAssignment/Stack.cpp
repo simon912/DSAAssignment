@@ -5,6 +5,7 @@ using namespace std;
 
 Stack::Stack() {
     topNode = nullptr;
+    length = 0;
 }
 
 Stack::~Stack() {
@@ -18,7 +19,7 @@ bool Stack::push(StackType item) {
 
     temp->next = topNode;
     topNode = temp;
-
+    length += 1;
     return true;
 }
 bool Stack::pop() {
@@ -29,7 +30,7 @@ bool Stack::pop() {
     Node* temp = topNode;
     topNode = temp->next;
     temp->next = nullptr;
-
+    length -= 1;
     return true;
 }
 bool Stack::pop(StackType& item) {
@@ -43,6 +44,7 @@ bool Stack::pop(StackType& item) {
     temp->next = nullptr;
 
     item = temp->item;
+    length -= 1;
 
     return true;
 }
@@ -61,7 +63,11 @@ bool Stack::isEmpty() {
 void Stack::displayContents(Dictionary<Post>& posts) {
     Stack tempStack;
 
+    int counter = 0;
+    
     while (!isEmpty()) {
+        counter++;
+
         string item;
         getTop(item);
         pop();
@@ -69,7 +75,15 @@ void Stack::displayContents(Dictionary<Post>& posts) {
 
         Post post = posts.get(item);
         
-        cout << post.getPostName() << endl;
+        cout << "[" + to_string(counter) + "] " + post.getPostName() << endl;
+        
+        if (post.getContent().length() > 50) {
+            cout << post.getContent().substr(0, 50) + "..." << endl;
+        } else {
+            cout << post.getContent() << endl;
+        }
+
+        cout << endl;
     }
 
     while (!tempStack.isEmpty()) {

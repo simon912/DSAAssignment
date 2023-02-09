@@ -2,6 +2,8 @@
 #include <fstream>
 #include <cstdio>
 #include <sstream>
+#include <random>
+
 #include "Dictionary.h"
 #include "List.h"
 #include "Account.h"
@@ -10,7 +12,6 @@
 #include "Post.h"
 
 Account account;
-Topic topic;
 Dictionary<string> accountDictionary;
 List<Topic> topicList;
 Dictionary<Post> postList;
@@ -29,8 +30,14 @@ void loadPersistentData();
 void readFromPosts();
 void loggedInMenu();
 void writeAllTopics();
+void writeAllPosts();
+
+string generateRandomID(std::size_t n);
 
 void centerAlignText(string input, bool hasBox);
+void newPostInTopic(int index);
+Post getPostFromTopic(Topic topic, int index);
+void displayPost(Post post);
 
 int main()
 {
@@ -161,10 +168,13 @@ void readFromPosts() {
                 case 1: // authorid
                     post.setAuthor(component);
                     break;
-                case 2: // content
+                case 2: // post name
+                    post.setPostName(component);
+                    break;
+                case 3: // content
                     post.setContent(component);
                     break;
-                case 3: // votes
+                case 4: // votes
                     post.setVotes(stoi(component));
                     break;
                 default: // append to repliesIDs
@@ -240,7 +250,6 @@ void createTopic()
 void writeAllTopics() {
     string data = "";
     ofstream file("Data/topicdata.tsv");
-
     for (int i = 0; i < topicList.getLength(); i++)
     {
         Topic topic = topicList.get(i);
@@ -356,7 +365,117 @@ void displayTopic(int index) {
     cout << "===================================================================" << endl;
     centerAlignText(currentTopic.getTopicName(), true);
     cout << "===================================================================" << endl;
+    cout << "[0] Create a new post in " + currentTopic.getTopicName() << endl;
+    cout << "-------------------------------------------------------------------" << endl;
     currentTopic.postIDs.displayContents(postList);
+    cout << "-------------------------------------------------------------------" << endl;
+    cout << "Any other key to go back." << endl;
+    cout << "===================================================================" << endl;
+    cout << "Type your option and press enter: ";
+
+    int value;
+    if (cin >> value && value <= currentTopic.postIDs.getLength()) {
+        if (value == 0) {
+            // New Post
+            newPostInTopic(index);
+        } else {
+            Post post = getPostFromTopic(currentTopic, value - 1);
+            displayPost(post);
+        }
+    }
+}
+
+void newPostInTopic(int index) {
+    Topic topic;
+    topicList.get(index, &topic);
+
+    Post post;
+    string postID = generateRandomID(32);
+    cout << "===================================================================" << endl;
+    centerAlignText("Create New Post", true);
+    centerAlignText(topic.getTopicName(), true);
+    cout << "===================================================================" << endl;
+    cout << "Title: ";
+
+    string input;
+    cin >> input;
+    getline(cin, input);
+    post.setPostName(input);
+
+    cout << "Contents: ";
+    cin >> input;
+    getline(cin, input);
+    post.setContent(input);
+
+    post.setAuthor(account.getUserID());
+    post.setVotes(0);
+
+    cout << "===================================================================" << endl;
+    cout << "Created new post" << endl; 
+    cout << postID << endl; 
+    cout << "===================================================================" << endl;
+
+    topic.postIDs.push(postID);
+    postList.add(postID, post);
+
+    topicList.replace(index, topic);
+
+    cout << topicList.get(index).postIDs.getLength() << endl;
+
+    writeAllTopics();
+    writeAllPosts();
+}
+
+Post getPostFromTopic(Topic topic, int index) {
+    Stack tempStack;
+    Post post;
+    int counter = 0;
+
+    while (!topic.postIDs.isEmpty()) {
+        string item;
+        topic.postIDs.getTop(item);
+        topic.postIDs.pop();
+        tempStack.push(item);
+
+        if (counter == index) {
+            post = postList.get(item);
+            break;
+        }
+        
+        counter++;
+    }
+
+    while (!tempStack.isEmpty()) {
+        string item;
+        tempStack.getTop(item);
+        tempStack.pop();
+        topic.postIDs.push(item);
+    }
+
+    return post;
+}
+
+void displayPost(Post post) {
+    cout << "===================================================================" << endl;
+    centerAlignText(post.getPostName(), true);
+    centerAlignText("By " + post.getAuthor(), true);
+    centerAlignText("-----------------------------------------------------------------", true);
+    centerAlignText(to_string(post.getVotes()) + " like(s)", true);
+    cout << "===================================================================" << endl;
+    cout << post.getContent() << endl;
+    cout << "-------------------------------------------------------------------" << endl;
+    cout << "[0] Like Post" << endl;
+    cout << "[1] View Replies" << endl;
+
+    if (account.getUserID() == post.getAuthor()) {
+        cout << endl;
+        cout << "[2] Edit Post" << endl;
+        cout << "[3] Delete Post" << endl;
+    }
+}
+
+void writeAllPosts() {
+    
 }
 
 void centerAlignText(string input, bool hasBox) {
@@ -374,4 +493,16 @@ void centerAlignText(string input, bool hasBox) {
     }
     if (hasBox) { cout << "|"; }
     cout << endl;
+}
+
+string generateRandomID(std::size_t n) {
+    constexpr char chars[] = "abcdefghijklmnopqrstuvwxyz";
+    constexpr std::size_t size = sizeof(chars) - 1;
+    std::mt19937 engine(std::random_device{}());
+    std::uniform_int_distribution<std::size_t> dist(0, size - 1);
+    std::string result;
+    for (std::size_t i = 0; i < n; ++i) {
+        result += chars[dist(engine)];
+    }
+    return result;
 }

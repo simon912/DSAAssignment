@@ -53,6 +53,8 @@ public:
 	// return the item in the specified index of the list
 	ItemType get(int index);
 
+    void get(int index, ItemType* item);
+
 	// check if the list is empty
 	// pre : none
 	// post: none
@@ -74,6 +76,8 @@ public:
 	ItemType getLast();
 	// void replace(int index, ItemType item);
 	// int search(ItemType item);
+
+    void replace(int index, ItemType item);
 };
 
 // ------------------------------------------- Implementation of List class -------------------------------------------
@@ -164,7 +168,20 @@ ItemType List<ItemType>::get(int index) {
             return current->item;
         }
     return ItemType();
-    }
+}
+
+template <typename ItemType>
+void List<ItemType>::get(int index, ItemType* item) {
+    if (index < size && index >= 0) {
+        Node* current = firstNode;
+        for (int i = 0; i <= index - 1; i++) {
+                if (current->next != NULL) {
+                    current = current->next;
+                }
+            }
+            *item = current->item;
+        }
+}
 
 // Put the item in the first index of the linked list
 template <typename ItemType>
@@ -194,7 +211,7 @@ void List<ItemType>::printTopic() {
     if (size != NULL)
     {   
         for (int i = 0; i < size; i++) {
-            Topic item = topic->item;
+            Topic item = get(i);
             int viewportWidth = 67;
             string stringToPrint = "[" + to_string(i + 1) + "] | " + item.getTopicName();
             string postCount = to_string(item.postIDs.getLength());
@@ -208,8 +225,6 @@ void List<ItemType>::printTopic() {
             }
 
             cout << postCount << endl;
-
-            topic = topic->next;
         }
     }
     else
@@ -222,6 +237,21 @@ void List<ItemType>::printTopic() {
 template <typename ItemType>
 int List<ItemType>::getLength() {
     return size;
+}
+
+template <typename ItemType>
+void List<ItemType>::replace(int index, ItemType item)
+{
+    if (index < 0 || index >= size)
+        return;
+
+    Node* current = firstNode;
+    for (int i = 0; i < index; i++)
+    {
+        current = current->next;
+    }
+
+    current->item = item;
 }
 
 /*

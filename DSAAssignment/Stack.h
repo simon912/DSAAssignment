@@ -20,6 +20,8 @@ private:
 
     Node* topNode;    // point to the first item
 
+    int length;
+
 public:
     // constructor
     Stack();

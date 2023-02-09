@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include<iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -85,6 +86,7 @@ public:
 	// return true if user is logged in as the UserID that exist; otherwise returns false
 	bool loginStatus(KeyType key, ItemType item);
 
+	int charvalue(char c);
 };
 
 // ------------------------------------------- Implementation of Dictionary class -------------------------------------------
@@ -102,12 +104,27 @@ Dictionary<ItemType>::~Dictionary() {};
 // Hash key (placeholder for now)
 template <typename ItemType>
 int Dictionary<ItemType>::hash(KeyType key) {
-	int x = 0;
-	for (int i : key)
-	{
-		x = x % MAX_SIZE;
-	}
-	return x;
+    int total = 1;
+    
+    for (int i = 0; i < key.size(); i++) {
+        total *= charvalue(key[i]);
+    }
+
+    return abs(total % MAX_SIZE);
+}
+
+template <typename ItemType>
+int Dictionary<ItemType>::charvalue(char c)
+{
+    if (isalpha(c))
+    {
+        if (isupper(c))
+            return (int)c - (int) 'A';
+        else
+            return (int)c - (int) 'a' + 26;
+    }
+    else
+        return -1;
 }
 
 // Add something into Hash Table with the Key and Item
