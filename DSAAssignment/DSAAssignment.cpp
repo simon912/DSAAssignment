@@ -574,13 +574,67 @@ void likePost(string postID) {
 }
 
 void viewReplies(string postID) {
-    Post post = postList.get(postID);
+    bool isShowingReplies = true;
+    while (isShowingReplies) {
+        Post post = postList.get(postID);
+        Queue replyQueue = post.replyIDs;
+        
+        Queue tempQueue;
+        cout << replyQueue.getLength() << " replies"<< endl;
+        while (!replyQueue.isEmpty()) {
+            string item;
+            replyQueue.dequeue(item);
+            
+            Post reply = postList.get(item);
+
+            string authorLabel = "By " + reply.getAuthor();
+            int leadingSpaces = 63 - authorLabel.length();
+
+            cout << reply.getContent() << endl;
+            for (int i = 0; i < leadingSpaces; i++)
+            {
+                cout << " ";
+            }
+            cout << authorLabel << endl;
+            cout << "-------------------------------------------------------------------" << endl;
+            tempQueue.enqueue(item);
+        }
+        
+        while (!tempQueue.isEmpty()) {
+            string item;
+            tempQueue.dequeue(item);
+            replyQueue.enqueue(item);
+        }
+
+        string value;
+        cout << "Reply (type Q to go back): ";
+        cin >> value;
+
+        if (value == "Q") {
+            // go back
+            isShowingReplies = false;
+        } else {
+            string newPostID = generateRandomID(32);
+            
+            replyQueue.enqueue(newPostID);
+            post.replyIDs = replyQueue;
+
+            Post newPost;
+            newPost.setAuthor(account.getUserID());
+            newPost.setContent(value);
+
+            postList.add(newPostID, newPost);
+            
+            postList.remove(postID);
+            postList.add(postID, post);
+
+            writePost(postID);
+        }
+    }
 }
 
 void writePost(string key) {
     Post post = postList.get(key);
-    cout << post.getAuthor() << endl;
-    cout << post.getPostName() << endl;
     string value = key + "\t" + post.getAuthor() + "\t" + post.getPostName() + "\t" + post.getContent() + "\t" + to_string(post.getVotes());
     ofstream file;
     file.open("Data/posts.tsv", ios::app);
